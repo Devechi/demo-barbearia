@@ -1835,5 +1835,137 @@
         update();
       })();
     </script>
-  </body>
+  <script>
+/* Demo personalizada por prospect: ?b=<telefone so com digitos> busca prospects.json.
+   Sem ?b= ou sem match, a demo Corte Fino continua exatamente como antes. */
+(function () {
+  try {
+    var b = (new URLSearchParams(location.search).get('b') || '').replace(/\D/g, '');
+    if (!b) return;
+    fetch('prospects.json').then(function (r) { return r.json(); }).then(function (data) {
+      var p = data && data[b];
+      if (!p || !p.name) return;
+      personalize(p);
+    }).catch(function () {});
+  } catch (e) {}
+
+  function personalize(p) {
+    try {
+      var name = p.name;
+      var shortName = name.replace(/^Barbearia\s+/i, '') || name;
+      var city = p.city || '';
+      var neigh = p.neighborhood || '';
+      var addr = p.address || '';
+      var locChip = neigh ? (neigh + ' · ' + city) : city;
+      var locComma = neigh ? (neigh + ', ' + city) : city;
+      var addrLine = addr || locChip;
+      var ig = String(p.instagram || '').replace(/^@/, '');
+
+      var digits = String(p.phone || '').replace(/\D/g, '');
+      var waDigits = '';
+      if (digits.length === 11 || digits.length === 10) waDigits = '55' + digits;
+      else if ((digits.length === 13 || digits.length === 12) && digits.slice(0, 2) === '55') waDigits = digits;
+      else waDigits = digits;
+
+      document.title = document.title.replace(/Barbearia Corte Fino/g, name);
+      var md = document.querySelector('meta[name="description"]');
+      if (md) {
+        md.setAttribute('content', md.getAttribute('content')
+          .replace(/Barbearia Corte Fino/g, name)
+          .replace(/em São Paulo/g, city ? ('em ' + city) : 'em São Paulo'));
+      }
+
+      var reps = [
+        ['Barbearia Corte Fino', name],
+        ['Rua das Palmeiras, 482 — Moema', addrLine],
+        ['São Paulo/SP · CEP 04077-020', city],
+        ['Moema · São Paulo/SP', locChip],
+        ['Moema, São Paulo/SP', locComma],
+        ['no coração de Moema', 'no coração de ' + (neigh || city)],
+        ['Moema · São Paulo', locChip]
+      ];
+      if (p.googleRating) {
+        reps.push(['4,9', Number(p.googleRating).toFixed(1).replace('.', ',')]);
+      }
+      if (p.googleReviews) {
+        reps.push(['mais de 480 avaliações', String(p.googleReviews) + ' avaliações']);
+      }
+      if (ig) reps.push(['barbeariacortefino', ig]);
+      reps.push(['Corte Fino', shortName]);
+
+      var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+        acceptNode: function (n) {
+          var parent = n.parentNode;
+          if (!parent) return NodeFilter.FILTER_REJECT;
+          var tag = parent.nodeName;
+          if (tag === 'SCRIPT' || tag === 'STYLE') return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      });
+      var node;
+      while ((node = walker.nextNode())) {
+        var t = node.nodeValue, orig = t;
+        for (var i = 0; i < reps.length; i++) {
+          if (t.indexOf(reps[i][0]) !== -1) t = t.split(reps[i][0]).join(reps[i][1]);
+        }
+        if (t !== orig) node.nodeValue = t;
+      }
+
+      var imgs = document.querySelectorAll('[alt*="Corte Fino"]');
+      for (var j = 0; j < imgs.length; j++) {
+        imgs[j].setAttribute('alt', imgs[j].getAttribute('alt').replace(/Barbearia Corte Fino/g, name));
+      }
+
+      var igLinks = document.querySelectorAll('a[href*="instagram.com"]');
+      for (var k = 0; k < igLinks.length; k++) {
+        if (ig) igLinks[k].setAttribute('href', 'https://www.instagram.com/' + ig);
+        else igLinks[k].style.display = 'none';
+      }
+
+      var mapsQ = addr ? (addr + ', ' + city) : (neigh ? (neigh + ', ' + city) : city);
+      if (mapsQ) {
+        var mapLinks = document.querySelectorAll('a[href*="google.com/maps"]');
+        for (var m = 0; m < mapLinks.length; m++) {
+          mapLinks[m].setAttribute('href', 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(mapsQ));
+        }
+      }
+
+      function fixWa(a) {
+        try {
+          var href = a.getAttribute('href') || '';
+          if (href.indexOf('wa.me/') === -1) return;
+          var num = (href.match(/wa\.me\/(\d+)/) || [])[1] || '';
+          var nh = href;
+          if (num === '5511999999999' && waDigits) {
+            nh = nh.replace('wa.me/5511999999999', 'wa.me/' + waDigits);
+          }
+          nh = nh.split('Barbearia%20Corte%20Fino').join(encodeURIComponent(name));
+          if (nh !== href) a.setAttribute('href', nh);
+        } catch (e) {}
+      }
+      var waLinks = document.querySelectorAll('a[href*="wa.me/"]');
+      for (var w = 0; w < waLinks.length; w++) fixWa(waLinks[w]);
+
+      var obs = new MutationObserver(function (muts) {
+        muts.forEach(function (mu) {
+          if (mu.type === 'attributes' && mu.target.tagName === 'A') {
+            fixWa(mu.target);
+          } else if (mu.type === 'childList') {
+            mu.addedNodes.forEach(function (nd) {
+              if (nd.nodeType !== 1) return;
+              if (nd.tagName === 'A') fixWa(nd);
+              if (nd.querySelectorAll) {
+                var inner = nd.querySelectorAll('a[href*="wa.me/"]');
+                for (var q = 0; q < inner.length; q++) fixWa(inner[q]);
+              }
+            });
+          }
+        });
+      });
+      obs.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['href'] });
+    } catch (e) {}
+  }
+})();
+</script>
+</body>
 </html>
