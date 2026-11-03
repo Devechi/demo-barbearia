@@ -6636,7 +6636,27 @@
 "address": "R. Tapajós, 64",
 "phone": "(46) 98820-9410",
 "instagram": "",
-"googleRating": 5.0,
+"googleRating": 5,
 "googleReviews": 209
+},
+"5533999938673": {
+"name": "Barbearia Barbershop Gold",
+"city": "Teófilo Otoni/MG",
+"neighborhood": "Centro",
+"address": "Av. Francisco Sá, 25, Teófilo Otoni/MG",
+"phone": "5533999938673",
+"instagram": "barbershopgoldteo",
+"googleRating": 4.9,
+"googleReviews": 613
+},
+"5519995405840": {
+"name": "Barbearia NAVAGGIO",
+"city": "Indaiatuba/SP",
+"neighborhood": "Parque Ecológico",
+"address": "Av. Eng. Fábio Roberto Barnabé, 1205, Sl 4, Pátio Ekkopark, Indaiatuba/SP",
+"phone": "5519995405840",
+"instagram": "barbearianavaggio",
+"googleRating": 5,
+"googleReviews": 278
 }
 }
