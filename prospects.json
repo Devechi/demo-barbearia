@@ -7519,16 +7519,6 @@
 "googleRating": 5,
 "googleReviews": 86
 },
-"1120715875": {
-"name": "Hair Point - Barbearia",
-"city": "São Paulo/SP",
-"neighborhood": "Itaquera",
-"address": "R. Fontoura Xavier, 943 — Itaquera",
-"phone": "(11) 2071-5875",
-"instagram": "hairpointitaquera",
-"googleRating": 4.9,
-"googleReviews": 768
-},
 "11947323345": {
 "name": "Barbearia First Option Classe A",
 "city": "São Paulo/SP",
@@ -7539,16 +7529,6 @@
 "googleRating": 4.8,
 "googleReviews": 218
 },
-"11986446364": {
-"name": "Cortalle Barbearia",
-"city": "São Paulo/SP",
-"neighborhood": "São Miguel",
-"address": "Av. São Miguel, 5267 — Parque Boturussu/São Miguel",
-"phone": "(11) 98644-6364",
-"instagram": "cortalle.barbearia",
-"googleRating": 5.0,
-"googleReviews": 252
-},
 "27999986650": {
 "name": "Don Duke Barbearia",
 "city": "Vitória/ES",
@@ -7556,8 +7536,38 @@
 "address": "R. Aluysio Simões, 34, Lj 06 — Bento Ferreira",
 "phone": "(27) 99998-6650",
 "instagram": "dondukebarbearia",
-"googleRating": 5.0,
+"googleRating": 5,
 "googleReviews": 1049
+},
+"1120715875": {
+"name": "Hair Point - Barbearia",
+"city": "São Paulo/SP",
+"neighborhood": "Itaquera",
+"address": "R. Fontoura Xavier, 943 — Itaquera",
+"phone": "(11) 2071-5875",
+"instagram": "hairpointitaquera",
+"googleRating": 4.9,
+"googleReviews": 768
+},
+"11986446364": {
+"name": "Cortalle Barbearia",
+"city": "São Paulo/SP",
+"neighborhood": "São Miguel",
+"address": "Av. São Miguel, 5267 — Parque Boturussu/São Miguel",
+"phone": "(11) 98644-6364",
+"instagram": "cortalle.barbearia",
+"googleRating": 5,
+"googleReviews": 252
+},
+"8330215895": {
+"name": "SKY Barbearia & Especialista Em Visagismo PB.",
+"city": "João Pessoa/PB",
+"neighborhood": "Manaíra",
+"address": "R. Juvenal Mário da Silva, 285, Sl 107 — Manaíra",
+"phone": "(83) 3021-5895",
+"instagram": "barbeariasky",
+"googleRating": 5,
+"googleReviews": 2005
 },
 "27998851910": {
 "name": "Friques Barbearia",
@@ -7566,7 +7576,7 @@
 "address": "R. Dr. Cyro Lopes Pereira, 910 — Jardim da Penha",
 "phone": "(27) 99885-1910",
 "instagram": "barbearia.friques",
-"googleRating": 5.0,
+"googleRating": 5,
 "googleReviews": 456
 },
 "27996527187": {
@@ -7576,18 +7586,8 @@
 "address": "Shopping Triângulo, R. João da Cruz, 200 — Praia do Canto",
 "phone": "(27) 99652-7187",
 "instagram": "ponto45barbearia",
-"googleRating": 5.0,
+"googleRating": 5,
 "googleReviews": 249
-},
-"8330215895": {
-"name": "SKY Barbearia & Especialista Em Visagismo PB.",
-"city": "João Pessoa/PB",
-"neighborhood": "Manaíra",
-"address": "R. Juvenal Mário da Silva, 285, Sl 107 — Manaíra",
-"phone": "(83) 3021-5895",
-"instagram": "barbeariasky",
-"googleRating": 5.0,
-"googleReviews": 2005
 },
 "83991381251": {
 "name": "Barba arretada",
@@ -7609,16 +7609,6 @@
 "googleRating": 4.9,
 "googleReviews": 624
 },
-"83988042996": {
-"name": "Barbearia Mr. Jésus - João Pessoa",
-"city": "João Pessoa/PB",
-"neighborhood": "Cabo Branco",
-"address": "Av. Monsenhor Odilon Coutinho, 138-02 — Cabo Branco",
-"phone": "(83) 98804-2996",
-"instagram": "mr.jesusbarbearia",
-"googleRating": 4.9,
-"googleReviews": 412
-},
 "65993331949": {
 "name": "Dom Pablo Barbearia",
 "city": "Cuiabá/MT",
@@ -7629,6 +7619,16 @@
 "googleRating": 4.9,
 "googleReviews": 576
 },
+"83988042996": {
+"name": "Barbearia Mr. Jésus - João Pessoa",
+"city": "João Pessoa/PB",
+"neighborhood": "Cabo Branco",
+"address": "Av. Monsenhor Odilon Coutinho, 138-02 — Cabo Branco",
+"phone": "(83) 98804-2996",
+"instagram": "mr.jesusbarbearia",
+"googleRating": 4.9,
+"googleReviews": 412
+},
 "65996625974": {
 "name": "CREONE Barbearia",
 "city": "Cuiabá/MT",
@@ -7636,7 +7636,87 @@
 "address": "Av. Manoel José de Arruda — Grande Terceiro",
 "phone": "(65) 99662-5974",
 "instagram": "creonebarbearia",
-"googleRating": 5.0,
+"googleRating": 5,
 "googleReviews": 516
+},
+"34991883545": {
+"name": "Lucas Barbearia",
+"city": "Uberlândia/MG",
+"neighborhood": "Tubalina",
+"address": "R. Oscar Gomes de Moreira Júnior, 473, Uberlândia/MG",
+"phone": "(34) 99188-3545",
+"instagram": "lucasbarbeariaoficial",
+"googleRating": 4.9,
+"googleReviews": 1535
+},
+"82996910511": {
+"name": "Sertão Barbearia",
+"city": "Maceió/AL",
+"neighborhood": "Prado",
+"address": "Av. Siqueira Campos, 408, Maceió/AL",
+"phone": "(82) 99691-0511",
+"instagram": "sertaobarbearia",
+"googleRating": 4.7,
+"googleReviews": 101
+},
+"91982027990": {
+"name": "Barbearia Everton - Marambaia",
+"city": "Belém/PA",
+"neighborhood": "Marambaia",
+"address": "Av. Tavares Bastos, 603, Belém/PA 66615-005",
+"phone": "(91) 98202-7990",
+"instagram": "everton_barbearia",
+"googleRating": 4.8,
+"googleReviews": 441
+},
+"84992302727": {
+"name": "Sanches Barbearia",
+"city": "Natal/RN",
+"neighborhood": "Tirol",
+"address": "Av. Prudente de Morais, 1140, Centro Empresarial Djalma Marinho, Natal/RN 59020-510",
+"phone": "(84) 99230-2727",
+"instagram": "",
+"googleRating": 5,
+"googleReviews": 126
+},
+"84996145944": {
+"name": "Barbearia Búzios",
+"city": "Natal/RN",
+"neighborhood": "Ponta Negra",
+"address": "Av. Praia de Búzios, 9156, Natal/RN 59092-200",
+"phone": "(84) 99614-5944",
+"instagram": "",
+"googleRating": 4.9,
+"googleReviews": 166
+},
+"91989149990": {
+"name": "t9 Barber Xperience",
+"city": "Belém/PA",
+"neighborhood": "Marco",
+"address": "Tv. Humaitá, 1884, Belém/PA 66087-046",
+"phone": "(91) 98914-9990",
+"instagram": "t9barber",
+"googleRating": 5,
+"googleReviews": 949
+},
+"34991949789": {
+"name": "D'Buenas Barbearia",
+"city": "Uberlândia/MG",
+"neighborhood": "Pres. Roosevelt",
+"address": "Av. Atlântica, 660, Uberlândia/MG",
+"phone": "(34) 99194-9789",
+"instagram": "dbuenasbarbearia",
+"googleRating": 4.9,
+"googleReviews": 1207
+},
+"82996362489": {
+"name": "Barbearia Velha Guarda",
+"city": "Maceió/AL",
+"neighborhood": "Mangabeiras",
+"address": "Av. João Davino, 12, Maceió/AL 57035-554",
+"phone": "(82) 99636-2489",
+"instagram": "barbeariavelhaguarda",
+"googleRating": 5,
+"googleReviews": 1348
 }
 }
