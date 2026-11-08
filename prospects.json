@@ -7878,5 +7878,35 @@
 "instagram": "pg_barbershop1",
 "googleRating": 5,
 "googleReviews": 41
+},
+"12996251673": {
+"name": "Barbearia Oliveira",
+"city": "São José dos Campos/SP",
+"neighborhood": "Jardim Aquarius",
+"address": "Av. Dr. João Baptista Soares de Queiroz Júnior, 969 - Loja 2, 12244-000",
+"phone": "(12) 99625-1673",
+"instagram": "barbeariaoliveiraa",
+"googleRating": 4.9,
+"googleReviews": 120
+},
+"12997417466": {
+"name": "Barbearia Siqueira",
+"city": "São José dos Campos/SP",
+"neighborhood": "",
+"address": "R. Nelson Cesar de Oliveira, 509 - Sl 01, 12240-220",
+"phone": "(12) 99741-7466",
+"instagram": "siqueirabarbeariaa",
+"googleRating": 4.9,
+"googleReviews": 203
+},
+"47996116069": {
+"name": "Barbearia Old H — Saguaçu",
+"city": "Joinville/SC",
+"neighborhood": "Saguaçu",
+"address": "R. Carlos Benack, 520, 89221-195",
+"phone": "(47) 99611-6069",
+"instagram": "oldhbarbershop",
+"googleRating": 5,
+"googleReviews": 271
 }
 }
