@@ -11078,5 +11078,65 @@
 "instagram": "complex_barber",
 "googleRating": 5,
 "googleReviews": 46
+},
+"4834372739": {
+"name": "Scheila Silva Hair & Índio Barber",
+"city": "Criciúma/SC",
+"neighborhood": "Centro",
+"address": "R. Des. Pedro Silva, 400, Criciúma/SC",
+"phone": "(48) 3437-2739",
+"instagram": "",
+"googleRating": 4.8,
+"googleReviews": 194
+},
+"48998224243": {
+"name": "Barbearia Catarinense",
+"city": "Criciúma/SC",
+"neighborhood": "",
+"address": "Rod. Luiz Rosso, 10870 - Sala 02 (anexa ao supermercado MM Rosso), Criciúma/SC",
+"phone": "(48) 99822-4243",
+"instagram": "barbearia_catarinense",
+"googleRating": 4.9,
+"googleReviews": 80
+},
+"48996601614": {
+"name": "Magnatto Barbearia",
+"city": "São José/SC",
+"neighborhood": "Kobrasol",
+"address": "Av. Lédio João Martins, 1087, São José/SC",
+"phone": "(48) 99660-1614",
+"instagram": "",
+"googleRating": 5,
+"googleReviews": 128
+},
+"24999271318": {
+"name": "Barbearia jc",
+"city": "Volta Redonda/RJ",
+"neighborhood": "",
+"address": "Av. Waldir Sobreira Píres, Volta Redonda/RJ",
+"phone": "(24) 99927-1318",
+"instagram": "jc_barbearia",
+"googleRating": 5,
+"googleReviews": 23
+},
+"24999959472": {
+"name": "Barbearia do ph",
+"city": "Volta Redonda/RJ",
+"neighborhood": "Retiro",
+"address": "Av. Sávio Cota de Almeida Gama, 2269 - Retiro, Volta Redonda/RJ",
+"phone": "(24) 99995-9472",
+"instagram": "",
+"googleRating": 5,
+"googleReviews": 17
+},
+"32988231433": {
+"name": "Bar.Bearia",
+"city": "Juiz de Fora/MG",
+"neighborhood": "",
+"address": "Av. dos Andradas, 1196, Juiz de Fora/MG",
+"phone": "(32) 98823-1433",
+"instagram": "beariabar",
+"googleRating": 4.9,
+"googleReviews": 15
 }
 }
