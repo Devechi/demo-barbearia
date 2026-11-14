@@ -51,9 +51,7 @@
 
       /* ---------- Topo ---------- */
       .topbar {
-        position: sticky; top: 0; z-index: 40;
         background: rgba(12, 10, 8, 0.92);
-        backdrop-filter: blur(10px);
         border-bottom: 1px solid var(--line);
       }
       .topbar-in {
@@ -621,7 +619,7 @@
 
       /* Vitrine: agenda fixa (sticky) + benefícios rolando ao lado */
       .show-wrap { display: grid; gap: 22px; align-items: start; }
-      .show-sticky { position: sticky; top: 84px; z-index: 6; }
+      .show-sticky { position: sticky; top: 16px; z-index: 6; }
       .agenda-live {
         background: linear-gradient(180deg, var(--panel-2), var(--panel));
         border: 1px solid var(--gold-2); border-radius: 18px;
@@ -672,7 +670,7 @@
         .benefit { min-height: 236px; padding: 30px 28px; display: flex; flex-direction: column; justify-content: center; }
       }
       @media (max-width: 640px) {
-        .show-sticky { top: 72px; }
+        .show-sticky { top: 12px; }
         .agenda-live { padding: 16px; border-radius: 16px; }
         .live-head { margin-bottom: 10px; font-size: 15px; }
         .live-slot { padding: 8px 12px; font-size: 13.5px; }
