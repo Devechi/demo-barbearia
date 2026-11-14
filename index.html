@@ -63,12 +63,46 @@
         --accent-soft-text: #7a5a12;
         --radius: 20px;
       }
+      html[data-theme="verde-claro"] {
+        --bg: #f7f5f0; --bg-2: #ffffff; --panel: #ffffff; --panel-2: #eef2ea;
+        --line: #d5ddcf; --gold: #2e7d46; --gold-2: #256b3a;
+        --text: #1c231a; --muted: #5f6f5c; --faint: #8a9784;
+        --on-accent: #ffffff; --accent-soft-text: #2e7d46;
+        --radius: 12px;
+      }
+      html[data-theme="azul-claro"] {
+        --bg: #f6f7f9; --bg-2: #ffffff; --panel: #ffffff; --panel-2: #edf1f7;
+        --line: #d3dbe8; --gold: #3b6fd4; --gold-2: #2f5cb8;
+        --text: #1a2233; --muted: #5c6a85; --faint: #8a96ad;
+        --on-accent: #ffffff; --accent-soft-text: #2f5cb8;
+        --radius: 18px;
+      }
+      html[data-theme="azul-claro"] .hero-text { margin-inline: auto; text-align: center; }
+      html[data-theme="azul-claro"] .hero-cta, html[data-theme="azul-claro"] .hero-meta { justify-content: center; }
+      html[data-theme="vinho-claro"] {
+        --bg: #f8f5f2; --bg-2: #ffffff; --panel: #ffffff; --panel-2: #f3ebe8;
+        --line: #e0d2cc; --gold: #a83a4e; --gold-2: #8e2f40;
+        --text: #241a1c; --muted: #6f5a5e; --faint: #9a8589;
+        --on-accent: #ffffff; --accent-soft-text: #a83a4e;
+        --radius: 6px;
+      }
+      html[data-theme="vinho-claro"] .btn { border-radius: 8px; }
+      html[data-theme="vinho-claro"] section { padding: 52px 0 8px; }
       html[data-theme="claro"] section { padding: 76px 0 8px; }
-      html[data-theme="claro"] .hero, html[data-theme="claro"] .band { color: #f4ecdc; }
-      html[data-theme="claro"] .hero-meta { color: #d8cdb4; }
-      html[data-theme="claro"] .hero-badge { background: rgba(12, 10, 8, 0.72); color: #f4ecdc; }
-      html[data-theme="claro"] .bk-success-title, html[data-theme="claro"] .slot.free .st,
-      html[data-theme="claro"] .chip.confirmado, html[data-theme="claro"] .mini-btn.wa { color: #1d7a3d; }
+      html:is([data-theme="claro"], [data-theme="verde-claro"], [data-theme="azul-claro"], [data-theme="vinho-claro"]) .hero,
+      html:is([data-theme="claro"], [data-theme="verde-claro"], [data-theme="azul-claro"], [data-theme="vinho-claro"]) .band { color: #f4ecdc; }
+      html:is([data-theme="claro"], [data-theme="verde-claro"], [data-theme="azul-claro"], [data-theme="vinho-claro"]) .hero-meta { color: #d8cdb4; }
+      html:is([data-theme="claro"], [data-theme="verde-claro"], [data-theme="azul-claro"], [data-theme="vinho-claro"]) .hero-badge { background: rgba(12, 10, 8, 0.72); color: #f4ecdc; }
+      html:is([data-theme="claro"], [data-theme="verde-claro"], [data-theme="azul-claro"], [data-theme="vinho-claro"]) .hero h1 .gold,
+      html:is([data-theme="claro"], [data-theme="verde-claro"], [data-theme="azul-claro"], [data-theme="vinho-claro"]) .band-quote .gold,
+      html:is([data-theme="claro"], [data-theme="verde-claro"], [data-theme="azul-claro"], [data-theme="vinho-claro"]) .hero-meta svg,
+      html:is([data-theme="claro"], [data-theme="verde-claro"], [data-theme="azul-claro"], [data-theme="vinho-claro"]) .hero-badge .stars { color: color-mix(in srgb, var(--gold) 45%, #f4ecdc); }
+      html:is([data-theme="claro"], [data-theme="verde-claro"], [data-theme="azul-claro"], [data-theme="vinho-claro"]) .hero .btn-ghost { color: #f4ecdc; border-color: rgba(244, 236, 220, 0.5); }
+      html:is([data-theme="claro"], [data-theme="verde-claro"], [data-theme="azul-claro"], [data-theme="vinho-claro"]) .hero .btn-ghost:hover { color: color-mix(in srgb, var(--gold) 45%, #f4ecdc); border-color: color-mix(in srgb, var(--gold) 45%, #f4ecdc); }
+      html:is([data-theme="claro"], [data-theme="verde-claro"], [data-theme="azul-claro"], [data-theme="vinho-claro"]) .bk-success-title,
+      html:is([data-theme="claro"], [data-theme="verde-claro"], [data-theme="azul-claro"], [data-theme="vinho-claro"]) .slot.free .st,
+      html:is([data-theme="claro"], [data-theme="verde-claro"], [data-theme="azul-claro"], [data-theme="vinho-claro"]) .chip.confirmado,
+      html:is([data-theme="claro"], [data-theme="verde-claro"], [data-theme="azul-claro"], [data-theme="vinho-claro"]) .mini-btn.wa { color: #1d7a3d; }
 
       /* ---------- Seletor de estilos ---------- */
       .theme-fab {
@@ -82,7 +116,7 @@
       .theme-fab svg { color: var(--gold); flex: 0 0 auto; }
       .theme-sheet {
         position: fixed; right: 18px; bottom: calc(152px + env(safe-area-inset-bottom)); z-index: 70;
-        width: min(330px, calc(100vw - 32px));
+        width: min(330px, calc(100vw - 32px)); max-height: calc(100dvh - 190px); overflow-y: auto;
         background: var(--panel); border: 1.5px solid var(--line); border-radius: 16px;
         padding: 16px; box-shadow: 0 26px 54px rgba(0, 0, 0, 0.55);
         display: none;
@@ -166,7 +200,7 @@
       }
       .btn:active { transform: scale(0.98); }
       .btn-gold { background: var(--gold); color: var(--on-accent); box-shadow: 0 6px 22px color-mix(in srgb, var(--gold) 28%, transparent); }
-      .btn-gold:hover { background: #e6b657; }
+      .btn-gold:hover { background: color-mix(in srgb, var(--gold) 82%, #ffffff); }
       .btn-sm { padding: 10px 18px; font-size: 14px; }
       .btn-ghost {
         background: transparent; color: var(--text);
@@ -248,7 +282,7 @@
       .service .desc { color: var(--muted); font-size: 13.5px; margin-top: 2px; }
       .tag {
         display: inline-block; vertical-align: 2px; margin-left: 8px;
-        background: var(--gold); color: #1c1405;
+        background: var(--gold); color: var(--on-accent);
         font-family: "Manrope", sans-serif; font-size: 10.5px; font-weight: 800;
         letter-spacing: 0.06em; text-transform: uppercase;
         padding: 3px 8px; border-radius: 999px;
@@ -264,7 +298,7 @@
         font: inherit; font-weight: 800; font-size: 13.5px;
         padding: 9px 16px; cursor: pointer;
       }
-      .service .pick:hover { background: var(--gold); color: #1c1405; }
+      .service .pick:hover { background: var(--gold); color: var(--on-accent); }
       @media (max-width: 520px) {
         .service { gap: 12px; padding: 14px; }
         .service .ic { width: 38px; height: 38px; flex-basis: 38px; border-radius: 10px; }
@@ -294,7 +328,7 @@
       }
       .step-num {
         width: 26px; height: 26px; border-radius: 50%;
-        background: var(--gold); color: #1c1405;
+        background: var(--gold); color: var(--on-accent);
         display: grid; place-items: center;
         font-family: "Manrope", sans-serif; font-size: 13px; font-weight: 800;
       }
@@ -723,7 +757,7 @@
         border: 1.5px solid var(--gold-2); border-radius: 10px;
         padding: 10px 14px; font-weight: 800; font-size: 14.5px;
       }
-      .live-slot:hover { background: var(--gold); color: #1c1405; }
+      .live-slot:hover { background: var(--gold); color: var(--on-accent); }
       .live-none { color: var(--muted); font-size: 14px; font-weight: 600; }
       .live-note { color: var(--muted); font-size: 13.5px; margin: 14px 0 16px; }
       .live-panel { color: var(--faint); font-size: 13px; text-align: center; margin: 12px 0 0; }
@@ -1942,18 +1976,30 @@
           <span class="tema-dots"><i style="background:#f7f5f0"></i><i style="background:#b98424"></i><i style="background:#211a12"></i></span>
           <span class="tema-txt"><b>Claro Moderno</b><small>Branco + dourado, tema claro</small></span>
         </button>
+        <button type="button" class="tema-opt" data-tema-btn="verde-claro">
+          <span class="tema-dots"><i style="background:#f7f5f0"></i><i style="background:#2e7d46"></i><i style="background:#1c231a"></i></span>
+          <span class="tema-txt"><b>Verde Claro</b><small>Verde + branco, tema claro</small></span>
+        </button>
+        <button type="button" class="tema-opt" data-tema-btn="azul-claro">
+          <span class="tema-dots"><i style="background:#f6f7f9"></i><i style="background:#3b6fd4"></i><i style="background:#1a2233"></i></span>
+          <span class="tema-txt"><b>Azul Claro</b><small>Azul + branco, tema claro, topo centralizado</small></span>
+        </button>
+        <button type="button" class="tema-opt" data-tema-btn="vinho-claro">
+          <span class="tema-dots"><i style="background:#f8f5f2"></i><i style="background:#a83a4e"></i><i style="background:#241a1c"></i></span>
+          <span class="tema-txt"><b>Vinho Claro</b><small>Vinho + branco, tema claro, cantos retos</small></span>
+        </button>
       </div>
     </div>
     <script>
     /* Seletor de estilos: ?tema=1..5 (ou nome) vence; depois a escolha salva; padrão: classico. */
     (function () {
-      var ORDER = ['classico', 'verde', 'azul', 'vinho', 'claro'];
+      var ORDER = ['classico', 'verde', 'azul', 'vinho', 'claro', 'verde-claro', 'azul-claro', 'vinho-claro'];
       function valid(t) { return ORDER.indexOf(t) >= 0 ? t : 'classico'; }
       function apply(t, save) {
         t = valid(t);
         document.documentElement.setAttribute('data-theme', t);
         var meta = document.querySelector('meta[name="color-scheme"]');
-        if (meta) meta.setAttribute('content', t === 'claro' ? 'light' : 'dark');
+        if (meta) meta.setAttribute('content', ['claro', 'verde-claro', 'azul-claro', 'vinho-claro'].indexOf(t) >= 0 ? 'light' : 'dark');
         try { if (save) localStorage.setItem('demo-tema', t); } catch (e) {}
         document.querySelectorAll('[data-tema-btn]').forEach(function (b) {
           var on = b.getAttribute('data-tema-btn') === t;
@@ -1966,7 +2012,7 @@
         var q = new URLSearchParams(location.search).get('tema');
         if (q) {
           var n = parseInt(q, 10);
-          if (n >= 1 && n <= 5) initial = ORDER[n - 1];
+          if (n >= 1 && n <= 8) initial = ORDER[n - 1];
           else if (ORDER.indexOf(q) >= 0) initial = q;
         } else {
           var s = localStorage.getItem('demo-tema');
