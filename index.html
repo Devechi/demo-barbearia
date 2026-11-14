@@ -35,7 +35,7 @@
       /* ---------- Temas: 5 estilos (só aparência — agenda, reserva e painel não mudam) ---------- */
       html[data-theme="verde"] {
         --bg: #0a0f0a; --bg-2: #10160f; --panel: #141b13; --panel-2: #182217;
-        --line: #26301f; --gold: #c8a24a; --gold-2: #a37f2e;
+        --line: #26301f; --gold: #57b26a; --gold-2: #3d8a4f;
         --text: #f2efe2; --muted: #a8b09a; --faint: #6f7d63;
         --radius: 10px;
       }
@@ -50,7 +50,7 @@
       html[data-theme="azul"] .hero-cta, html[data-theme="azul"] .hero-meta { justify-content: center; }
       html[data-theme="vinho"] {
         --bg: #160b0d; --bg-2: #1d0f12; --panel: #241318; --panel-2: #2c181d;
-        --line: #3a2228; --gold: #d08a4b; --gold-2: #a8652f;
+        --line: #3a2228; --gold: #cf6b7a; --gold-2: #a84a5c;
         --text: #f7ead9; --muted: #c0a795; --faint: #8a6f63;
         --radius: 6px;
       }
@@ -697,7 +697,7 @@
 
       /* Vitrine: agenda fixa (sticky) + benefícios rolando ao lado */
       .show-wrap { display: grid; gap: 22px; align-items: start; }
-      .show-sticky { position: sticky; top: 16px; z-index: 6; }
+      .show-sticky { position: static; }
       .agenda-live {
         background: linear-gradient(180deg, var(--panel-2), var(--panel));
         border: 1px solid var(--gold-2); border-radius: 18px;
@@ -748,7 +748,6 @@
         .benefit { min-height: 236px; padding: 30px 28px; display: flex; flex-direction: column; justify-content: center; }
       }
       @media (max-width: 640px) {
-        .show-sticky { top: 12px; }
         .agenda-live { padding: 16px; border-radius: 16px; }
         .live-head { margin-bottom: 10px; font-size: 15px; }
         .live-slot { padding: 8px 12px; font-size: 13.5px; }
@@ -1928,7 +1927,7 @@
           <span class="tema-txt"><b>Clássico Dourado</b><small>Preto + dourado, o visual atual</small></span>
         </button>
         <button type="button" class="tema-opt" data-tema-btn="verde">
-          <span class="tema-dots"><i style="background:#0a0f0a"></i><i style="background:#c8a24a"></i><i style="background:#f2efe2"></i></span>
+          <span class="tema-dots"><i style="background:#0a0f0a"></i><i style="background:#57b26a"></i><i style="background:#f2efe2"></i></span>
           <span class="tema-txt"><b>Verde Barbearia</b><small>Verde-escuro + creme</small></span>
         </button>
         <button type="button" class="tema-opt" data-tema-btn="azul">
@@ -1936,8 +1935,8 @@
           <span class="tema-txt"><b>Azul Noite</b><small>Azul-marinho + azul-claro, topo centralizado</small></span>
         </button>
         <button type="button" class="tema-opt" data-tema-btn="vinho">
-          <span class="tema-dots"><i style="background:#160b0d"></i><i style="background:#d08a4b"></i><i style="background:#f7ead9"></i></span>
-          <span class="tema-txt"><b>Vinho Vintage</b><small>Vinho + cobre, cantos retos</small></span>
+          <span class="tema-dots"><i style="background:#160b0d"></i><i style="background:#cf6b7a"></i><i style="background:#f7ead9"></i></span>
+          <span class="tema-txt"><b>Vinho Vintage</b><small>Vinho + creme, cantos retos</small></span>
         </button>
         <button type="button" class="tema-opt" data-tema-btn="claro">
           <span class="tema-dots"><i style="background:#f7f5f0"></i><i style="background:#b98424"></i><i style="background:#211a12"></i></span>
