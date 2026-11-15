@@ -866,7 +866,7 @@
             </div>
             <div class="hero-meta">
               <span><svg width="17" height="17"><use href="#i-pin"/></svg> Moema · São Paulo/SP</span>
-              <span><svg width="17" height="17"><use href="#i-clock"/></svg> Seg a Sáb · 9h às 19h</span>
+              <span><svg width="17" height="17"><use href="#i-clock"/></svg> Seg a Dom · 9h às 19h</span>
               <span class="xtra"><svg width="17" height="17"><use href="#i-check"/></svg> Sem espera com agendamento</span>
             </div>
           </div>
@@ -1082,7 +1082,7 @@
             <table class="hours">
               <tr><td>Segunda a sexta</td><td>9h — 19h</td></tr>
               <tr><td>Sábado</td><td>9h — 19h</td></tr>
-              <tr><td>Domingo</td><td class="closed">Fechado</td></tr>
+              <tr><td>Domingo</td><td>9h — 19h</td></tr>
             </table>
             <div class="card-actions">
               <a class="btn btn-ghost btn-sm" href="#agendar">Agendar agora</a>
@@ -1340,15 +1340,13 @@
         var monthNames = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
         var dowFull = ["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
         days.forEach(function (d, idx) {
-          var closed = d.getDay() === 0; // domingo fechado
           var b = document.createElement("button");
           b.type = "button";
           b.className = "opt day-opt";
-          b.disabled = closed;
           b.innerHTML =
             '<span class="dow">' + (idx === 0 ? "Hoje" : dowNames[d.getDay()]) + "</span>" +
             '<span class="dnum">' + d.getDate() + "</span>" +
-            '<span class="sub">' + (closed ? "Fechado" : monthNames[d.getMonth()].slice(0, 3)) + "</span>";
+            '<span class="sub">' + monthNames[d.getMonth()].slice(0, 3) + "</span>";
           b.addEventListener("click", function () {
             state.day = d;
             state.dayISO = toISO(d);
@@ -1525,11 +1523,6 @@
           var tISO = toISO(todayD);
           if (liveDayEl) liveDayEl.textContent = "\u00b7 hoje, " + shortDayLabel(tISO);
           liveSlotsEl.innerHTML = "";
-          if (todayD.getDay() === 0) {
-            liveSlotsEl.innerHTML = '<span class="live-none">Domingo a barbearia fecha — abra a agenda e escolha outro dia.</span>';
-            if (liveNoteEl) liveNoteEl.textContent = "A agenda mostra os dias e horários certos, sem você precisar configurar nada.";
-            return;
-          }
           var nowMin2 = todayD.getHours() * 60 + todayD.getMinutes();
           var free = [];
           SLOTS.forEach(function (label) {
@@ -1620,14 +1613,13 @@
           panelDaysEl.innerHTML = "";
           days.forEach(function (d, idx) {
             var iso = toISO(d);
-            var closed = d.getDay() === 0;
             var b = document.createElement("button");
             b.type = "button";
             b.className = "opt day-opt" + (iso === panelDayISO ? " sel" : "");
             b.innerHTML =
               '<span class="dow">' + (idx === 0 ? "Hoje" : dowNames[d.getDay()]) + "</span>" +
               '<span class="dnum">' + d.getDate() + "</span>" +
-              '<span class="sub">' + (closed ? "Fechado" : monthNames[d.getMonth()].slice(0, 3)) + "</span>";
+              '<span class="sub">' + monthNames[d.getMonth()].slice(0, 3) + "</span>";
             b.addEventListener("click", function () {
               panelDayISO = iso;
               renderPanel();
@@ -1639,7 +1631,6 @@
           panelSlotsEl.innerHTML = "";
           var isToday = panelDayISO === toISO(new Date());
           var nowMin = new Date().getHours() * 60 + new Date().getMinutes();
-          var closedDay = fromISO(panelDayISO).getDay() === 0;
           SLOTS.forEach(function (label) {
             var parts = label.split(":");
             var mins = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
@@ -1650,10 +1641,7 @@
             if (!bk) cell.type = "button";
             cell.className = "slot";
             var inner = '<span class="tm">' + label + "</span>";
-            if (closedDay) {
-              cell.className += " past";
-              inner += '<span class="st">Fechado</span>';
-            } else if (bk) {
+            if (bk) {
               cell.className += " busy";
               inner += '<span class="st">Agendado</span><span class="who-name">' + esc(bk.name) + " · " + esc(bk.serviceName) + "</span>";
             } else if (bl) {
@@ -1796,7 +1784,6 @@
         function fillBlockForm() {
           blockDaySel.innerHTML = "";
           days.forEach(function (d) {
-            if (d.getDay() === 0) return; // domingo já é fechado
             var o = document.createElement("option");
             o.value = toISO(d);
             o.textContent = dayLabel(d);
