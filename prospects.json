@@ -11608,5 +11608,45 @@
 "instagram": "allan.hebert.barbershop",
 "googleRating": 4.9,
 "googleReviews": 129
+},
+"4733049591": {
+"name": "Guigui Barber Shop",
+"city": "Pomerode/SC",
+"neighborhood": "Testo Central",
+"address": "R. XV de Novembro, 9795",
+"phone": "(47) 3304-9591",
+"instagram": "guigui_barber_shop",
+"googleRating": 5,
+"googleReviews": 84
+},
+"15991789730": {
+"name": "LORD BARBEARIA",
+"city": "Sorocaba/SP",
+"neighborhood": "Jardim Vera Cruz",
+"address": "Av. Salvador Milego, 63",
+"phone": "(15) 99178-9730",
+"instagram": "",
+"googleRating": 5,
+"googleReviews": 69
+},
+"15991002741": {
+"name": "Barbearia André Saints",
+"city": "Sorocaba/SP",
+"neighborhood": "Vila Haro",
+"address": "R. Pedro José Senger, 1417 - Box 2",
+"phone": "(15) 99100-2741",
+"instagram": "andresaints.barber",
+"googleRating": null,
+"googleReviews": null
+},
+"51996945871": {
+"name": "Oficina Do Bigode",
+"city": "Novo Hamburgo/RS",
+"neighborhood": "Vila Rosa",
+"address": "R. Vinte e Quatro de Maio, 484",
+"phone": "(51) 99694-5871",
+"instagram": "oficinadobigode",
+"googleRating": 5,
+"googleReviews": 30
 }
 }
