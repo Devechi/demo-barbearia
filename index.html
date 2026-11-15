@@ -1995,12 +1995,16 @@
     (function () {
       var ORDER = ['classico', 'verde', 'azul', 'vinho', 'claro', 'verde-claro', 'azul-claro', 'vinho-claro'];
       function valid(t) { return ORDER.indexOf(t) >= 0 ? t : 'classico'; }
+      /* Tema por demo: cada barbearia guarda o seu estilo; a escolha de uma demo nunca vaza para outra. */
+      var demoId = '';
+      try { demoId = (new URLSearchParams(location.search).get('b') || '').replace(/\D/g, ''); } catch (e) {}
+      var THEME_KEY = 'demo-tema:' + (demoId || 'geral');
       function apply(t, save) {
         t = valid(t);
         document.documentElement.setAttribute('data-theme', t);
         var meta = document.querySelector('meta[name="color-scheme"]');
         if (meta) meta.setAttribute('content', ['claro', 'verde-claro', 'azul-claro', 'vinho-claro'].indexOf(t) >= 0 ? 'light' : 'dark');
-        try { if (save) localStorage.setItem('demo-tema', t); } catch (e) {}
+        try { if (save) localStorage.setItem(THEME_KEY, t); } catch (e) {}
         document.querySelectorAll('[data-tema-btn]').forEach(function (b) {
           var on = b.getAttribute('data-tema-btn') === t;
           b.classList.toggle('sel', on);
@@ -2015,7 +2019,8 @@
           if (n >= 1 && n <= 8) initial = ORDER[n - 1];
           else if (ORDER.indexOf(q) >= 0) initial = q;
         } else {
-          var s = localStorage.getItem('demo-tema');
+          var s = localStorage.getItem(THEME_KEY);
+          if (!s && !demoId) { try { s = localStorage.getItem('demo-tema'); } catch (e2) {} }
           if (s) initial = s;
         }
       } catch (e) {}
@@ -2082,13 +2087,20 @@
         ['Moema · São Paulo/SP', locChip],
         ['Moema, São Paulo/SP', locComma],
         ['no coração de Moema', 'no coração de ' + (neigh || city)],
-        ['Moema · São Paulo', locChip]
+        ['Moema · São Paulo', locChip],
+        ['Desde 2012, a mesma cadeira,', 'A mesma cadeira,'],
+        ['Desde 2012 no coração de', 'No coração de']
       ];
       if (p.googleRating) {
         reps.push(['4,9', Number(p.googleRating).toFixed(1).replace('.', ',')]);
+      } else {
+        reps.push(['4,9 · ', '']);
       }
       if (p.googleReviews) {
         reps.push(['mais de 480 avaliações', String(p.googleReviews) + ' avaliações']);
+        reps.push(['mais de 2.000 clientes atendidos', String(p.googleReviews) + ' avaliações no Google']);
+      } else {
+        reps.push(['mais de 2.000 clientes atendidos', 'agendamento online']);
       }
       if (ig) reps.push(['barbeariacortefino', ig]);
       reps.push(['Corte Fino', shortName]);
@@ -2109,6 +2121,44 @@
           if (t.indexOf(reps[i][0]) !== -1) t = t.split(reps[i][0]).join(reps[i][1]);
         }
         if (t !== orig) node.nodeValue = t;
+      }
+
+      /* Stats, selo e depoimentos: nada de numero nem nome inventado na demo do prospect. */
+      var stats = document.querySelectorAll('.stats .stat');
+      var statsBox = document.querySelector('.stats');
+      var visStats = 0;
+      if (stats.length >= 3) {
+        stats[0].style.display = 'none'; /* "13+ anos de casa" e da Corte Fino */
+        if (p.googleReviews) {
+          var sn = stats[1].querySelector('.n'), sl = stats[1].querySelector('.l');
+          if (sn) sn.textContent = String(p.googleReviews);
+          if (sl) sl.textContent = 'Avaliações no Google';
+          visStats++;
+        } else {
+          stats[1].style.display = 'none';
+        }
+        if (p.googleRating) {
+          visStats++;
+        } else {
+          stats[2].style.display = 'none';
+        }
+        if (statsBox) {
+          if (visStats === 0) statsBox.style.display = 'none';
+          else statsBox.style.gridTemplateColumns = 'repeat(' + visStats + ', 1fr)';
+        }
+      }
+      var badge = document.querySelector('.hero-badge');
+      if (badge && !p.googleRating && !p.googleReviews) badge.style.display = 'none';
+      var revBox = document.querySelector('#avaliacoes .reviews');
+      if (revBox) {
+        if (p.googleReviews) {
+          var rt = p.googleRating ? Number(p.googleRating).toFixed(1).replace('.', ',') : '5,0';
+          var esc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+          revBox.innerHTML = '<article class="review rv"><div class="stars" aria-label="5 de 5 estrelas">★★★★★</div><p>Nota ' + rt + ' no Google, com ' + p.googleReviews + ' avaliações de clientes reais.</p><div class="who"><span class="avatar">G</span><span><span class="nm">' + esc(name) + '</span><br /><span class="dt">no Google</span></span></div></article>';
+        } else {
+          var secAv = document.getElementById('avaliacoes');
+          if (secAv) secAv.style.display = 'none';
+        }
       }
 
       var imgs = document.querySelectorAll('[alt*="Corte Fino"]');
