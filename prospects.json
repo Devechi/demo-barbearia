@@ -1749,16 +1749,6 @@
 "googleRating": null,
 "googleReviews": null
 },
-"71996529436": {
-"name": "Barbearia Moustache",
-"city": "Salvador/BA",
-"neighborhood": "Itaigara",
-"address": "Alameda Pádua, 335 – Loja 102 (Shopping Vela Branca Center)",
-"phone": "(71) 99652-9436",
-"instagram": "",
-"googleRating": 4.7,
-"googleReviews": 7
-},
 "7135997132": {
 "name": "Navalha Club Barbearia",
 "city": "Lauro de Freitas/BA",
@@ -11648,5 +11638,15 @@
 "instagram": "oficinadobigode",
 "googleRating": 5,
 "googleReviews": 30
+},
+"71996529436": {
+"name": "Barbearia Realeza Visagismo",
+"city": "Salvador/BA",
+"neighborhood": "Pituba",
+"address": "Alameda Padua, 335 - Loja 102 (Shopping Vela Branca Center)",
+"phone": "(71) 99652-9436",
+"instagram": "",
+"googleRating": 4.9,
+"googleReviews": 451
 }
 }
