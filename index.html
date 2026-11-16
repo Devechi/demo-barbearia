@@ -550,8 +550,7 @@
         display: block; font-weight: 700; font-size: 13px; margin-top: 2px;
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
       }
-      .slot.free { cursor: pointer; }
-      .slot.free:hover { border-color: var(--gold-2); }
+      .slot.free { cursor: default; }
       .slot.free .st { color: #7de8a8; }
       .slot.busy { border-color: var(--gold-2); background: var(--gold-soft); }
       .slot.busy .st { color: var(--gold); }
@@ -621,6 +620,25 @@
       .block-item:last-child { border-bottom: 0; padding-bottom: 2px; }
       .panel-note { color: var(--faint); font-size: 13px; margin: 12px 0 0; }
       .panel-empty { color: var(--muted); font-size: 14.5px; margin: 0; padding: 4px 0; }
+      .hours-form { display: grid; gap: 2px; }
+      .hours-row { display: grid; grid-template-columns: 92px 1fr 108px 108px; align-items: center; gap: 8px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; }
+      .hours-row:last-child { border-bottom: 0; padding-bottom: 2px; }
+      .hours-row .dow { font-weight: 700; }
+      .hours-row .open-toggle { display: flex; align-items: center; gap: 7px; font-size: 13.5px; cursor: pointer; white-space: nowrap; }
+      .hours-row .open-toggle input { width: 17px; height: 17px; accent-color: var(--gold); flex: 0 0 auto; }
+      .hours-row input[type="time"] { width: 100%; font: inherit; color: var(--text); background: var(--bg-2); border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 10px; font-variant-numeric: tabular-nums; }
+      .hours-row input[type="time"]:disabled { opacity: 0.35; }
+      .hours-row input[type="time"]:focus { outline: none; border-color: var(--gold); }
+      .hol-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; }
+      .hol-row:last-child { border-bottom: 0; padding-bottom: 2px; }
+      .hol-row .hol-info { flex: 1 1 170px; }
+      .hol-row .hol-info strong { display: block; }
+      .hol-row .hol-info span { color: var(--muted); font-size: 13px; }
+      .hol-pend { display: inline-block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #ffb020; border: 1px solid rgba(255, 176, 32, 0.55); border-radius: 999px; padding: 3px 8px; }
+      .mini-btn.sel { border-color: var(--gold); color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+      .mini-btn.go.sel { background: var(--green); border-color: var(--green); color: #06280f; }
+      .mini-btn.danger.sel { background: #ef8261; border-color: #ef8261; color: #fff; }
+      @media (max-width: 560px) { .hours-row { grid-template-columns: 82px 1fr 96px 96px; gap: 6px; } }
       .gcal-status { display: flex; align-items: center; gap: 8px; font-weight: 700; margin: 0 0 8px; }
       .gcal-dot { width: 10px; height: 10px; border-radius: 50%; background: #34a853; box-shadow: 0 0 0 3px rgba(52, 168, 83, 0.2); flex: 0 0 auto; }
       .gcal-toggle { display: flex; align-items: center; gap: 9px; font-size: 14.5px; cursor: pointer; }
@@ -975,7 +993,7 @@
           <div class="step">
             <div class="step-title"><span class="step-num">3</span> Escolha o horário</div>
             <div class="opts" id="bk-times"></div>
-            <p class="times-legend">Horários riscados já estão ocupados ou bloqueados na agenda.</p>
+            <p class="times-legend">Horários riscados já estão ocupados.</p>
           </div>
           <div class="step">
             <div class="step-title"><span class="step-num">4</span> Seus dados</div>
@@ -1076,11 +1094,7 @@
           </div>
           <div class="card rv">
             <h3><svg width="19" height="19"><use href="#i-clock"/></svg> Horário de funcionamento</h3>
-            <table class="hours">
-              <tr><td>Segunda a sexta</td><td>9h — 19h</td></tr>
-              <tr><td>Sábado</td><td>9h — 19h</td></tr>
-              <tr><td>Domingo</td><td>9h — 19h</td></tr>
-            </table>
+            <table class="hours" id="hours-table">
             <div class="card-actions">
               <a class="btn btn-ghost btn-sm" href="#agendar">Agendar agora</a>
             </div>
@@ -1150,7 +1164,7 @@
             <h3>Agenda do dia</h3>
             <div class="opts panel-days" id="panel-days"></div>
             <div class="slot-grid" id="panel-slots"></div>
-            <p class="panel-note">Toque num horário livre para bloquear (almoço, folga, imprevisto) e num horário bloqueado para liberar de novo.</p>
+            <p class="panel-note">Horários livres são os que o cliente pode reservar. Para mudar a grade, ajuste o horário de funcionamento abaixo.</p>
           </div>
 
           <div class="panel-card">
@@ -1159,23 +1173,16 @@
           </div>
 
           <div class="panel-card">
-            <h3>Bloquear horário</h3>
-            <div class="block-form">
-              <div class="field">
-                <label for="block-day">Dia</label>
-                <select id="block-day"></select>
-              </div>
-              <div class="field">
-                <label for="block-time">Horário</label>
-                <select id="block-time"></select>
-              </div>
-              <div class="field">
-                <label for="block-note">Motivo (opcional)</label>
-                <input id="block-note" type="text" maxlength="40" placeholder="Ex.: almoço" />
-              </div>
-              <button class="btn btn-gold btn-sm" id="block-add" type="button">Bloquear</button>
-            </div>
-            <div id="panel-blocks" style="margin-top:8px"></div>
+            <h3>Horário de funcionamento</h3>
+            <p class="panel-note" style="margin:0 0 8px">Defina antes em que dias e horários a barbearia abre — a agenda do site segue isso sozinha, sem precisar bloquear horário por horário.</p>
+            <div class="hours-form" id="hours-form"></div>
+            <p class="panel-note" id="hours-saved" hidden>Horário salvo.</p>
+          </div>
+
+          <div class="panel-card">
+            <h3>Feriados</h3>
+            <p class="panel-note" style="margin:0 0 8px">Em cada feriado, escolha se a barbearia abre ou não. Enquanto você não decidir, o dia fica sem horários — nenhum cliente consegue agendar.</p>
+            <div id="panel-holidays"></div>
           </div>
 
           <div class="panel-card">
@@ -1313,9 +1320,133 @@
             return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
           });
         }
-        // Grade de horários da casa: 9h às 18h30, de 30 em 30 min
-        var SLOTS = [];
-        for (var sh = 9; sh < 19; sh++) { SLOTS.push(pad2(sh) + ":00"); SLOTS.push(pad2(sh) + ":30"); }
+        /* ================================================================
+           HORÁRIO DE FUNCIONAMENTO + FERIADOS (HoursDB / HolidayDB)
+           A grade de horários nasce do horário de funcionamento que o
+           barbeiro define no painel (por dia da semana), e não de
+           bloqueio manual. Nos feriados, o barbeiro é obrigado a
+           escolher se abre ou não — enquanto não decidir, o dia não
+           tem horários para o cliente. Tudo fica no armazenamento
+           local do navegador, separado por demo (?b=<telefone>).
+           ================================================================ */
+        var DEMO_ID = "";
+        try { DEMO_ID = (new URLSearchParams(location.search).get("b") || "").replace(/\D/g, ""); } catch (e) {}
+        var HOURS_KEY = "demo-horarios:" + (DEMO_ID || "geral");
+        var HOLIDAYS_KEY = "demo-feriados:" + (DEMO_ID || "geral");
+        var DEFAULT_HOURS = [
+          { open: true, from: "09:00", to: "19:00" }, // domingo
+          { open: true, from: "09:00", to: "19:00" }, // segunda
+          { open: true, from: "09:00", to: "19:00" }, // terça
+          { open: true, from: "09:00", to: "19:00" }, // quarta
+          { open: true, from: "09:00", to: "19:00" }, // quinta
+          { open: true, from: "09:00", to: "19:00" }, // sexta
+          { open: true, from: "09:00", to: "19:00" }  // sábado
+        ];
+        var HoursDB = {
+          _mem: null,
+          get: function () {
+            if (this._mem) return this._mem;
+            var saved = lsGet(HOURS_KEY);
+            this._mem = (saved && Array.isArray(saved) && saved.length === 7)
+              ? saved : JSON.parse(JSON.stringify(DEFAULT_HOURS));
+            return this._mem;
+          },
+          save: function (cfg) { this._mem = cfg; lsSet(HOURS_KEY, cfg); },
+          reset: function () { this._mem = null; try { localStorage.removeItem(HOURS_KEY); } catch (e) {} }
+        };
+        // Feriados nacionais — a lista cobre os próximos meses; o barbeiro
+        // decide por feriado se abre ou não (mapa iso -> "abre" | "fechado").
+        var HOLIDAYS = [
+          { iso: "2026-11-20", name: "Consciência Negra" },
+          { iso: "2026-12-25", name: "Natal" },
+          { iso: "2027-01-01", name: "Confraternização Universal" },
+          { iso: "2027-02-08", name: "Carnaval" },
+          { iso: "2027-02-09", name: "Carnaval" },
+          { iso: "2027-04-02", name: "Sexta-feira Santa" },
+          { iso: "2027-04-21", name: "Tiradentes" },
+          { iso: "2027-05-01", name: "Dia do Trabalhador" },
+          { iso: "2027-06-03", name: "Corpus Christi" },
+          { iso: "2027-09-07", name: "Independência do Brasil" },
+          { iso: "2027-10-12", name: "Nossa Senhora Aparecida" },
+          { iso: "2027-11-02", name: "Finados" },
+          { iso: "2027-11-15", name: "Proclamação da República" },
+          { iso: "2027-11-20", name: "Consciência Negra" },
+          { iso: "2027-12-25", name: "Natal" }
+        ];
+        var HolidayDB = {
+          _mem: null,
+          get: function () {
+            if (this._mem) return this._mem;
+            var saved = lsGet(HOLIDAYS_KEY);
+            this._mem = (saved && typeof saved === "object" && !Array.isArray(saved)) ? saved : {};
+            return this._mem;
+          },
+          set: function (iso, val) { var m = this.get(); m[iso] = val; lsSet(HOLIDAYS_KEY, m); },
+          reset: function () { this._mem = {}; try { localStorage.removeItem(HOLIDAYS_KEY); } catch (e) {} }
+        };
+        function parseHM(s) {
+          var p = String(s || "").split(":");
+          return (parseInt(p[0], 10) || 0) * 60 + (parseInt(p[1], 10) || 0);
+        }
+        function fmtHM(m) {
+          return Math.floor(m / 60) + "h" + (m % 60 ? pad2(m % 60) : "");
+        }
+        function holidayFor(dayISO) {
+          for (var i = 0; i < HOLIDAYS.length; i++) if (HOLIDAYS[i].iso === dayISO) return HOLIDAYS[i];
+          return null;
+        }
+        // Estado do dia: { kind: "aberto" | "fechado" | "pendente", holiday?: {...} }
+        // "pendente" = feriado sem decisão do barbeiro (sem horários p/ o cliente).
+        function dayState(dayISO) {
+          var h = holidayFor(dayISO);
+          if (h) {
+            var dec = HolidayDB.get()[dayISO];
+            if (dec === "abre") return { kind: "aberto", holiday: h };
+            if (dec === "fechado") return { kind: "fechado", holiday: h };
+            return { kind: "pendente", holiday: h };
+          }
+          var cfg = HoursDB.get()[fromISO(dayISO).getDay()];
+          if (!cfg || !cfg.open) return { kind: "fechado" };
+          return { kind: "aberto" };
+        }
+        // Grade do dia a partir do horário de funcionamento: de 30 em 30 min,
+        // último horário começa 30 min antes de fechar (9h–19h = 9:00..18:30).
+        function daySlotsFor(dayISO) {
+          var cfg = HoursDB.get()[fromISO(dayISO).getDay()];
+          if (!cfg || !cfg.open) return [];
+          var from = parseHM(cfg.from), to = parseHM(cfg.to);
+          if (to <= from) return [];
+          var slots = [];
+          for (var m = from; m + 30 <= to; m += 30) slots.push(pad2(Math.floor(m / 60)) + ":" + pad2(m % 60));
+          return slots;
+        }
+        function sameHours(a, b) {
+          if (!a || !b) return a === b;
+          if (!a.open && !b.open) return true;
+          return a.open === b.open && a.from === b.from && a.to === b.to;
+        }
+        // Tabela "Horário de funcionamento" do site, agrupando dias iguais.
+        function renderHoursTable() {
+          var tbl = document.getElementById("hours-table");
+          if (!tbl) return;
+          var cfg = HoursDB.get();
+          var order = [1, 2, 3, 4, 5, 6, 0]; // seg..dom
+          var sNames = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+          var fNames = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+          var html = "";
+          var i = 0;
+          while (i < order.length) {
+            var j = i;
+            while (j + 1 < order.length && sameHours(cfg[order[j + 1]], cfg[order[i]])) j++;
+            var label = (i === j) ? fNames[order[i]] : sNames[order[i]] + " a " + sNames[order[j]];
+            var c = cfg[order[i]];
+            var closed = !c || !c.open;
+            var val = closed ? "Fechado" : fmtHM(parseHM(c.from)) + " — " + fmtHM(parseHM(c.to));
+            html += "<tr><td>" + label + "</td><td" + (closed ? ' class="closed"' : "") + ">" + val + "</td></tr>";
+            i = j + 1;
+          }
+          tbl.innerHTML = html;
+        }
 
         var SERVICES = [
           { id: "corte",       name: "Corte",        price: 50, mins: 40, dur: "± 40 min", icon: "i-scissors", desc: "Social, degradê ou o estilo que você trouxer de referência." },
@@ -1380,10 +1511,11 @@
           var b = document.createElement("button");
           b.type = "button";
           b.className = "opt day-opt";
+          var hol = holidayFor(toISO(d));
           b.innerHTML =
             '<span class="dow">' + (idx === 0 ? "Hoje" : dowNames[d.getDay()]) + "</span>" +
             '<span class="dnum">' + d.getDate() + "</span>" +
-            '<span class="sub">' + monthNames[d.getMonth()].slice(0, 3) + "</span>";
+            '<span class="sub">' + monthNames[d.getMonth()].slice(0, 3) + (hol ? " · feriado" : "") + "</span>";
           b.addEventListener("click", function () {
             state.day = d;
             state.dayISO = toISO(d);
@@ -1400,8 +1532,8 @@
         /* ---------- Passo 3: horários com trava real da agenda ---------- */
         var bkTimes = document.getElementById("bk-times");
         function slotBusy(dayISO, label) {
-          // ocupado = já tem reserva ativa, o barbeiro bloqueou, ou a Agenda do Google tem compromisso
-          return !!(AgendaDB.bookingFor(dayISO, label) || AgendaDB.blockFor(dayISO, label) || gcalBusyFor(dayISO, label));
+          // ocupado = já tem reserva ativa ou a Agenda do Google tem compromisso
+          return !!(AgendaDB.bookingFor(dayISO, label) || gcalBusyFor(dayISO, label));
         }
         function renderTimes() {
           bkTimes.innerHTML = "";
@@ -1409,9 +1541,19 @@
             bkTimes.innerHTML = '<span style="color:var(--faint);font-size:14px">Escolha um dia para ver os horários livres.</span>';
             return;
           }
+          var ds = dayState(state.dayISO);
+          if (ds.kind === "fechado") {
+            bkTimes.innerHTML = '<span style="color:var(--faint);font-size:14px">' +
+              (ds.holiday ? "Fechado no feriado de " + esc(ds.holiday.name) + "." : "Fechado neste dia.") + "</span>";
+            return;
+          }
+          if (ds.kind === "pendente") {
+            bkTimes.innerHTML = '<span style="color:var(--faint);font-size:14px">Horário a confirmar — a barbearia ainda vai decidir se abre no feriado de ' + esc(ds.holiday.name) + ".</span>";
+            return;
+          }
           var isToday = state.dayISO === toISO(new Date());
           var nowMin = new Date().getHours() * 60 + new Date().getMinutes();
-          SLOTS.forEach(function (label) {
+          daySlotsFor(state.dayISO).forEach(function (label) {
             var parts = label.split(":");
             var mins = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
             var past = isToday && mins <= nowMin;
@@ -1432,6 +1574,7 @@
         renderTimes();
         // Se o horário escolhido ficar ocupado (reserva feita ou painel mexeu), atualiza a grade
         function refreshSiteTimes() {
+          renderHoursTable();
           if (!state.day) return;
           if (state.time && slotBusy(state.dayISO, state.time)) state.time = null;
           renderTimes();
@@ -1564,15 +1707,22 @@
           liveSlotsEl.innerHTML = "";
           var nowMin2 = todayD.getHours() * 60 + todayD.getMinutes();
           var free = [];
-          SLOTS.forEach(function (label) {
-            var p = label.split(":");
-            var m = parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
-            if (m > nowMin2 && !slotBusy(tISO, label)) free.push(label);
-          });
+          var dsToday = dayState(tISO);
+          if (dsToday.kind === "aberto") {
+            daySlotsFor(tISO).forEach(function (label) {
+              var p = label.split(":");
+              var m = parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+              if (m > nowMin2 && !slotBusy(tISO, label)) free.push(label);
+            });
+          }
           var bookedCount = AgendaDB.bookings().filter(function (b) {
             return b.dayISO === tISO && b.status !== "cancelado";
           }).length;
-          if (!free.length) {
+          if (dsToday.kind === "fechado") {
+            liveSlotsEl.innerHTML = '<span class="live-none">Hoje a barbearia está fechada' + (dsToday.holiday ? " — feriado de " + esc(dsToday.holiday.name) : "") + ".</span>";
+          } else if (dsToday.kind === "pendente") {
+            liveSlotsEl.innerHTML = '<span class="live-none">Horário de hoje a confirmar — feriado de ' + esc(dsToday.holiday.name) + ".</span>";
+          } else if (!free.length) {
             liveSlotsEl.innerHTML = '<span class="live-none">Hoje lotou — abra a agenda e escolha outro dia.</span>';
           } else {
             free.slice(0, 6).forEach(function (label) {
@@ -1600,6 +1750,7 @@
           }
         }
         renderShowcase();
+        renderHoursTable();
 
         /* ================================================================
            PAINEL DO BARBEIRO (#painel)
@@ -1888,10 +2039,11 @@
             var b = document.createElement("button");
             b.type = "button";
             b.className = "opt day-opt" + (iso === panelDayISO ? " sel" : "");
+            var holP = holidayFor(iso);
             b.innerHTML =
               '<span class="dow">' + (idx === 0 ? "Hoje" : dowNames[d.getDay()]) + "</span>" +
               '<span class="dnum">' + d.getDate() + "</span>" +
-              '<span class="sub">' + monthNames[d.getMonth()].slice(0, 3) + "</span>";
+              '<span class="sub">' + monthNames[d.getMonth()].slice(0, 3) + (holP ? " · feriado" : "") + "</span>";
             b.addEventListener("click", function () {
               panelDayISO = iso;
               renderPanel();
@@ -1901,52 +2053,38 @@
         }
         function renderPanelSlots() {
           panelSlotsEl.innerHTML = "";
+          var ds = dayState(panelDayISO);
+          if (ds.kind === "fechado") {
+            panelSlotsEl.innerHTML = '<p class="panel-empty">' +
+              (ds.holiday ? "Fechado no feriado de " + esc(ds.holiday.name) + " — mude na seção Feriados abaixo."
+                          : "Fechado neste dia — mude no horário de funcionamento abaixo.") + "</p>";
+            return;
+          }
+          if (ds.kind === "pendente") {
+            panelSlotsEl.innerHTML = '<p class="panel-empty">Horário a confirmar — escolha se a barbearia abre no feriado de ' + esc(ds.holiday.name) + " na seção Feriados abaixo.</p>";
+            return;
+          }
           var isToday = panelDayISO === toISO(new Date());
           var nowMin = new Date().getHours() * 60 + new Date().getMinutes();
-          SLOTS.forEach(function (label) {
+          daySlotsFor(panelDayISO).forEach(function (label) {
             var parts = label.split(":");
             var mins = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
             var past = isToday && mins <= nowMin;
             var bk = AgendaDB.bookingFor(panelDayISO, label);
-            var bl = AgendaDB.blockFor(panelDayISO, label);
-            var cell = document.createElement(bk ? "div" : "button");
-            if (!bk) cell.type = "button";
+            var cell = document.createElement("div");
             cell.className = "slot";
             var inner = '<span class="tm">' + label + "</span>";
             if (bk) {
               cell.className += " busy";
               inner += '<span class="st">Agendado</span><span class="who-name">' + esc(bk.name) + " · " + esc(bk.serviceName) + "</span>";
-            } else if (bl) {
-              cell.className += " blocked";
-              inner += '<span class="st">Bloqueado</span>' + (bl.note ? '<span class="who-name">' + esc(bl.note) + "</span>" : "");
-              cell.title = "Toque para liberar";
             } else if (past) {
               cell.className += " past";
               inner += '<span class="st">Já passou</span>';
             } else {
               cell.className += " free";
               inner += '<span class="st">Livre</span>';
-              cell.title = "Toque para bloquear";
             }
             cell.innerHTML = inner;
-            if (!bk && !past) {
-              if (bl) {
-                cell.addEventListener("click", function () {
-                  AgendaDB.removeBlock(bl.id);
-                  renderPanel();
-                  refreshSiteTimes();
-                });
-              } else {
-                cell.addEventListener("click", function () {
-                  AgendaDB.addBlock({
-                    id: "x" + Date.now().toString(36) + Math.floor(Math.random() * 9999),
-                    dayISO: panelDayISO, time: label, note: "Bloqueado pelo barbeiro"
-                  });
-                  renderPanel();
-                  refreshSiteTimes();
-                });
-              }
-            }
             panelSlotsEl.appendChild(cell);
           });
         }
@@ -2049,96 +2187,89 @@
           }
         }
 
-        /* ----- Bloqueios manuais (formulário) ----- */
-        var blockDaySel = document.getElementById("block-day");
-        var blockTimeSel = document.getElementById("block-time");
-        var blockNoteInput = document.getElementById("block-note");
-        var panelBlocksEl = document.getElementById("panel-blocks");
-        function fillBlockForm() {
-          blockDaySel.innerHTML = "";
-          days.forEach(function (d) {
-            var o = document.createElement("option");
-            o.value = toISO(d);
-            o.textContent = dayLabel(d);
-            blockDaySel.appendChild(o);
-          });
-          blockTimeSel.innerHTML = "";
-          var allDay = document.createElement("option");
-          allDay.value = "*";
-          allDay.textContent = "Dia todo";
-          blockTimeSel.appendChild(allDay);
-          SLOTS.forEach(function (label) {
-            var o = document.createElement("option");
-            o.value = label;
-            o.textContent = label;
-            blockTimeSel.appendChild(o);
-          });
-        }
-        document.getElementById("block-add").addEventListener("click", function () {
-          var dayISO = blockDaySel.value;
-          var time = blockTimeSel.value;
-          if (!dayISO || !time) return;
-          if (time !== "*" && AgendaDB.bookingFor(dayISO, time)) {
-            // horário já tem cliente: não bloqueia por cima
-            var warn = document.getElementById("block-warn");
-            if (!warn) {
-              warn = document.createElement("p");
-              warn.id = "block-warn";
-              warn.className = "bk-error";
-              warn.style.margin = "12px 0 0";
-              panelBlocksEl.parentNode.insertBefore(warn, panelBlocksEl);
-            }
-            warn.textContent = "Esse horário já tem um agendamento — cancele o agendamento antes de bloquear.";
-            return;
-          }
-          var warnEl = document.getElementById("block-warn");
-          if (warnEl) warnEl.textContent = "";
-          AgendaDB.addBlock({
-            id: "x" + Date.now().toString(36) + Math.floor(Math.random() * 9999),
-            dayISO: dayISO, time: time, note: blockNoteInput.value.trim()
-          });
-          blockNoteInput.value = "";
-          panelDayISO = dayISO;
-          renderPanel();
-          refreshSiteTimes();
-        });
-        function renderPanelBlocks() {
-          var todayISO = toISO(new Date());
-          var list = AgendaDB.blocks().filter(function (b) { return b.dayISO >= todayISO; });
-          list.sort(function (a, b) {
-            if (a.dayISO !== b.dayISO) return a.dayISO < b.dayISO ? -1 : 1;
-            return String(a.time) < String(b.time) ? -1 : 1;
-          });
-          panelBlocksEl.innerHTML = "";
-          if (!list.length) {
-            panelBlocksEl.innerHTML = '<p class="panel-empty">Nenhum bloqueio ativo.</p>';
-            return;
-          }
-          list.forEach(function (bl) {
-            var item = document.createElement("div");
-            item.className = "block-item";
-            item.innerHTML =
-              "<span><strong>" + esc(shortDayLabel(bl.dayISO)) + "</strong> · " +
-              (bl.time === "*" ? "dia todo" : "às " + esc(bl.time)) +
-              (bl.note ? " · " + esc(bl.note) : "") + "</span>";
-            var freeBtn = document.createElement("button");
-            freeBtn.type = "button";
-            freeBtn.className = "mini-btn";
-            freeBtn.textContent = "Liberar";
-            freeBtn.addEventListener("click", function () {
-              AgendaDB.removeBlock(bl.id);
+        /* ----- Horário de funcionamento (formulário do painel) ----- */
+        var hoursFormEl = document.getElementById("hours-form");
+        var hoursSavedEl = document.getElementById("hours-saved");
+        var HOURS_DOW = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+        function renderHoursForm() {
+          var cfg = HoursDB.get();
+          hoursFormEl.innerHTML = "";
+          [1, 2, 3, 4, 5, 6, 0].forEach(function (d) {
+            var c = cfg[d] || { open: true, from: "09:00", to: "19:00" };
+            var row = document.createElement("div");
+            row.className = "hours-row";
+            row.innerHTML =
+              '<span class="dow">' + HOURS_DOW[d] + "</span>" +
+              '<label class="open-toggle"><input type="checkbox" class="h-open"' + (c.open ? " checked" : "") + " /> Aberto</label>" +
+              '<input type="time" class="h-from" value="' + esc(c.from) + '"' + (c.open ? "" : " disabled") + " />" +
+              '<input type="time" class="h-to" value="' + esc(c.to) + '"' + (c.open ? "" : " disabled") + " />";
+            row.addEventListener("change", function () {
+              var nc = HoursDB.get().slice();
+              nc[d] = {
+                open: row.querySelector(".h-open").checked,
+                from: row.querySelector(".h-from").value || "09:00",
+                to: row.querySelector(".h-to").value || "19:00"
+              };
+              HoursDB.save(nc);
+              hoursSavedEl.hidden = false;
               renderPanel();
               refreshSiteTimes();
             });
-            item.appendChild(freeBtn);
-            panelBlocksEl.appendChild(item);
+            hoursFormEl.appendChild(row);
+          });
+        }
+
+        /* ----- Feriados (painel): o barbeiro decide se abre ou não ----- */
+        var panelHolidaysEl = document.getElementById("panel-holidays");
+        function renderPanelHolidays() {
+          var todayISO = toISO(new Date());
+          var upcoming = HOLIDAYS.filter(function (h) { return h.iso >= todayISO; });
+          panelHolidaysEl.innerHTML = "";
+          if (!upcoming.length) {
+            panelHolidaysEl.innerHTML = '<p class="panel-empty">Nenhum feriado nos próximos meses.</p>';
+            return;
+          }
+          var dec = HolidayDB.get();
+          upcoming.forEach(function (h) {
+            var row = document.createElement("div");
+            row.className = "hol-row";
+            var d = fromISO(h.iso);
+            var st = dec[h.iso];
+            row.innerHTML =
+              '<div class="hol-info"><strong>' + esc(h.name) + "</strong><span>" +
+              dowFull[d.getDay()] + ", " + d.getDate() + " de " + monthNames[d.getMonth()] + " de " + d.getFullYear() + "</span></div>" +
+              (st ? "" : '<span class="hol-pend">Falta decidir</span>');
+            var openBtn = document.createElement("button");
+            openBtn.type = "button";
+            openBtn.className = "mini-btn go" + (st === "abre" ? " sel" : "");
+            openBtn.textContent = "Abre";
+            openBtn.addEventListener("click", function () {
+              HolidayDB.set(h.iso, "abre");
+              renderPanel();
+              refreshSiteTimes();
+            });
+            var closeBtn = document.createElement("button");
+            closeBtn.type = "button";
+            closeBtn.className = "mini-btn danger" + (st === "fechado" ? " sel" : "");
+            closeBtn.textContent = "Fechado";
+            closeBtn.addEventListener("click", function () {
+              HolidayDB.set(h.iso, "fechado");
+              renderPanel();
+              refreshSiteTimes();
+            });
+            row.appendChild(openBtn);
+            row.appendChild(closeBtn);
+            panelHolidaysEl.appendChild(row);
           });
         }
 
         document.getElementById("panel-reset").addEventListener("click", function () {
           AgendaDB.reset();
+          HoursDB.reset();
+          HolidayDB.reset();
           state.time = null;
           renderPanel();
+          renderHoursTable();
           refreshSiteTimes();
         });
 
@@ -2147,9 +2278,9 @@
           renderPanelDays();
           renderPanelSlots();
           renderPanelBookings();
-          renderPanelBlocks();
+          renderHoursForm();
+          renderPanelHolidays();
         }
-        fillBlockForm();
         checkRoute();
       })();
     </script>
