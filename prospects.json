@@ -12248,5 +12248,45 @@
 "instagram": "",
 "googleRating": 5,
 "googleReviews": 2
+},
+"83987077570": {
+"name": "Barbearia seu Ferreira",
+"city": "Campina Grande/PB",
+"neighborhood": "Liberdade",
+"address": "R. Odon Bezerra, 148A, Loja 3 — Liberdade, Campina Grande/PB",
+"phone": "(83) 98707-7570",
+"instagram": "",
+"googleRating": null,
+"googleReviews": null
+},
+"54991148104": {
+"name": "Barbearia Nordus",
+"city": "Passo Fundo/RS",
+"neighborhood": "São Cristóvão",
+"address": "Av. Pres. Vargas, 3974 — São Cristóvão, Passo Fundo/RS",
+"phone": "(54) 99114-8104",
+"instagram": "",
+"googleRating": 5,
+"googleReviews": 25
+},
+"84987517395": {
+"name": "Barbearia Pegas",
+"city": "Natal/RN",
+"neighborhood": "Quintas",
+"address": "R. dos Pegas, 1778a — Quintas, Natal/RN, 59035-100",
+"phone": "(84) 98751-7395",
+"instagram": "",
+"googleRating": 5,
+"googleReviews": 37
+},
+"31991384331": {
+"name": "Barbearia Faioli",
+"city": "Ipatinga/MG",
+"neighborhood": "Iguaçu",
+"address": "Av. Guido Marliére, 26 — Iguaçu, Ipatinga/MG",
+"phone": "(31) 99138-4331",
+"instagram": "estudio_faioli",
+"googleRating": 4.8,
+"googleReviews": 40
 }
 }
