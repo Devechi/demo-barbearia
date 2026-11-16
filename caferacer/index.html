@@ -832,21 +832,23 @@
     cancelAnimationFrame(raf);
     sizeStage();
     var light = theme === 'claro';
-    mode = light ? 'none' : 'parts';
-    if (light) {
-      blobs = []; parts = [];
-    } else {
-      parts = [];
-      for (var i = 0; i < 90; i++) parts.push({
+    mode = 'parts';
+    var pc = light ? '18,18,18' : '245,244,242';
+    var ac = light ? '168,124,61' : '194,86,43';
+    var gc = light ? '#A87C3D' : '#C2562B';
+    parts = [];
+    for (var i = 0; i < 90; i++) {
+      var g = Math.random() < .3;
+      parts.push({
         x: Math.random(), y: Math.random(), r: Math.random() * 1.6 + .4,
         vx: (Math.random() - .5) * .00004, vy: (Math.random() - .5) * .00003,
-        a: Math.random() * .5 + .15, tw: Math.random() * 6.28, gold: Math.random() < .3
+        a: Math.random() * .5 + .15, tw: Math.random() * 6.28, gold: g, col: g ? ac : pc
       });
-      blobs = [
-        { sp: blobSprite('#C2562B'), x: .75, y: .2, r: .34, ph: 1, sp2: .00008 },
-        { sp: blobSprite('#C2562B'), x: .2, y: .7, r: .26, ph: 3.5, sp2: .00006 }
-      ];
     }
+    blobs = [
+      { sp: blobSprite(gc), x: .75, y: .2, r: .34, ph: 1, sp2: .00008 },
+      { sp: blobSprite(gc), x: .2, y: .7, r: .26, ph: 3.5, sp2: .00006 }
+    ];
     drawStage(0);
     if (!reduced) {
       var t0 = performance.now();
@@ -882,7 +884,7 @@
         if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0;
         if (p.y < 0) p.y = 1; if (p.y > 1) p.y = 0;
         var a = p.a * (0.7 + 0.3 * Math.sin(t * 0.001 + p.tw));
-        ctx.fillStyle = p.gold ? 'rgba(194,86,43,' + a + ')' : 'rgba(245,244,242,' + a + ')';
+        ctx.fillStyle = 'rgba(' + p.col + ',' + a + ')';
         ctx.beginPath(); ctx.arc(p.x * W, p.y * H, p.r, 0, 6.283); ctx.fill();
       });
     }
@@ -928,14 +930,14 @@
       geo.cards = cards.map(function(el){
         return { el: el, c: (el.offsetParent === track ? track.offsetLeft : 0) + el.offsetLeft + el.offsetWidth / 2 };
       });
-      if (!reduced && window.innerWidth >= 768) {
+      if (!reduced) {
         sec.style.height = Math.round(((geo.dist + window.innerHeight) / window.innerHeight) * 100) + 'vh';
       } else {
         sec.style.height = '';
       }
     }
     function tick(){
-      if (reduced || window.innerWidth < 768) return;
+      if (reduced) return;
       var r = sec.getBoundingClientRect();
       var p = clamp01(-r.top / Math.max(1, r.height - window.innerHeight));
       var x = -p * geo.dist;
@@ -946,10 +948,10 @@
         cd.el.style.opacity = (1 - Math.abs(d) * 0.35).toFixed(3);
       });
     }
-    if (reduced || window.innerWidth < 768) sec.classList.add('native');
+    if (reduced) sec.classList.add('native');
     window.addEventListener('resize', function(){
       remeasure();
-      if (window.innerWidth < 768 || reduced) sec.classList.add('native'); else sec.classList.remove('native');
+      if (reduced) sec.classList.add('native'); else sec.classList.remove('native');
       tick();
     });
     var rafTick = false;
