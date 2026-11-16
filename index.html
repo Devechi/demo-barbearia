@@ -1186,6 +1186,7 @@
             </div>
             <div id="gcal-on" hidden>
               <p class="gcal-status"><span class="gcal-dot"></span> Conectado ao Google Agenda</p>
+              <p class="panel-note" id="gcal-account" style="margin:0 0 12px"></p>
               <p class="panel-note" id="gcal-note" style="margin:0 0 12px">Conta do Google da barbearia conectada. Os agendamentos do site entram na agenda automaticamente.</p>
               <label class="gcal-toggle"><input type="checkbox" id="gcal-sync" checked /> Sincronizar novos agendamentos automaticamente</label>
               <div style="margin-top:14px"><button class="btn btn-ghost btn-sm" id="gcal-disconnect" type="button">Desconectar</button></div>
@@ -1201,6 +1202,7 @@
     <div class="gcal-modal" id="gcal-modal" hidden>
       <div class="gcal-modal-box" role="dialog" aria-label="Conectar Google Agenda">
         <h4>Conectar Google Agenda</h4>
+        <p id="gcal-modal-mode" style="font-weight:700;color:var(--text)"></p>
         <p>O site vai pedir acesso à Conta do Google da barbearia para:</p>
         <ul>
           <li>Ver e editar os eventos da agenda</li>
@@ -1208,6 +1210,7 @@
           <li>Evitar conflito com os compromissos que já estão na agenda</li>
         </ul>
         <p>Na versão de cada cliente, a conexão é feita com a conta dele, direto no Google — nenhuma senha fica no site.</p>
+        <p id="gcal-error" hidden style="color:#ff9a9a;font-weight:700">Não foi possível conectar ao Google. Confira a internet e toque em Permitir acesso de novo.</p>
         <div class="gcal-modal-actions">
           <button class="btn btn-ghost btn-sm" id="gcal-cancel" type="button">Cancelar</button>
           <button class="btn btn-gold btn-sm" id="gcal-allow" type="button">Permitir acesso</button>
@@ -1256,6 +1259,11 @@
           setStatus: function (id, status) {
             var all = this.bookings().slice();
             for (var i = 0; i < all.length; i++) if (all[i].id === id) all[i].status = status;
+            memBookings = all; this._saveBookings();
+          },
+          updateBooking: function (id, patch) {
+            var all = this.bookings().slice();
+            for (var i = 0; i < all.length; i++) if (all[i].id === id) { for (var k in patch) all[i][k] = patch[k]; }
             memBookings = all; this._saveBookings();
           },
           blocks: function () {
@@ -1310,11 +1318,11 @@
         for (var sh = 9; sh < 19; sh++) { SLOTS.push(pad2(sh) + ":00"); SLOTS.push(pad2(sh) + ":30"); }
 
         var SERVICES = [
-          { id: "corte",       name: "Corte",        price: 50, dur: "± 40 min", icon: "i-scissors", desc: "Social, degradê ou o estilo que você trouxer de referência." },
-          { id: "barba",       name: "Barba",        price: 35, dur: "± 30 min", icon: "i-razor",    desc: "Desenhada na navalha, com toalha quente e óleo finalizador." },
-          { id: "combo",       name: "Corte + Barba", price: 75, dur: "± 1h10",   icon: "i-combo",    desc: "O ritual completo: corte, barba, toalha quente e finalização.", hot: true },
-          { id: "sobrancelha", name: "Sobrancelha",  price: 15, dur: "± 15 min", icon: "i-brow",     desc: "Alinhamento na navalha ou na pinça, do jeito que você prefere." },
-          { id: "hidratacao",  name: "Hidratação",   price: 40, dur: "± 30 min", icon: "i-drop",     desc: "Tratamento profundo que devolve brilho e maciez ao fio." }
+          { id: "corte",       name: "Corte",        price: 50, mins: 40, dur: "± 40 min", icon: "i-scissors", desc: "Social, degradê ou o estilo que você trouxer de referência." },
+          { id: "barba",       name: "Barba",        price: 35, mins: 30, dur: "± 30 min", icon: "i-razor",    desc: "Desenhada na navalha, com toalha quente e óleo finalizador." },
+          { id: "combo",       name: "Corte + Barba", price: 75, mins: 70, dur: "± 1h10",   icon: "i-combo",    desc: "O ritual completo: corte, barba, toalha quente e finalização.", hot: true },
+          { id: "sobrancelha", name: "Sobrancelha",  price: 15, mins: 15, dur: "± 15 min", icon: "i-brow",     desc: "Alinhamento na navalha ou na pinça, do jeito que você prefere." },
+          { id: "hidratacao",  name: "Hidratação",   price: 40, mins: 30, dur: "± 30 min", icon: "i-drop",     desc: "Tratamento profundo que devolve brilho e maciez ao fio." }
         ];
 
         var state = { service: null, day: null, dayISO: null, time: null };
@@ -1384,6 +1392,7 @@
             b.classList.add("sel");
             renderTimes();
             update();
+            gcalRefreshBusy(state.dayISO);
           });
           bkDays.appendChild(b);
         });
@@ -1391,8 +1400,8 @@
         /* ---------- Passo 3: horários com trava real da agenda ---------- */
         var bkTimes = document.getElementById("bk-times");
         function slotBusy(dayISO, label) {
-          // ocupado = já tem reserva ativa ou o barbeiro bloqueou
-          return !!(AgendaDB.bookingFor(dayISO, label) || AgendaDB.blockFor(dayISO, label));
+          // ocupado = já tem reserva ativa, o barbeiro bloqueou, ou a Agenda do Google tem compromisso
+          return !!(AgendaDB.bookingFor(dayISO, label) || AgendaDB.blockFor(dayISO, label) || gcalBusyFor(dayISO, label));
         }
         function renderTimes() {
           bkTimes.innerHTML = "";
@@ -1524,6 +1533,7 @@
             createdAt: Date.now()
           };
           AgendaDB.addBooking(booking);
+          gcalInsertEvent(booking);
           renderShowcase();
           hideError();
           successText.innerHTML =
@@ -1635,7 +1645,14 @@
         document.getElementById("pin-btn").addEventListener("click", tryPin);
         pinInput.addEventListener("keydown", function (e) { if (e.key === "Enter") tryPin(); });
 
-        /* ----- Google Agenda (demonstração: conexão simulada) ----- */
+        /* ----- Google Agenda: conexão REAL (OAuth) com fallback simulado ----- */
+        /* Conexão de verdade: crie um Client ID no Google Cloud (projeto com a
+           Calendar API ativa, cliente OAuth "Aplicativo da Web", origem JavaScript
+           https://devechi.github.io) e cole o ID em GOOGLE_CLIENT_ID. Sem ele,
+           a demo simula a conexão (nada sai do navegador). */
+        var GOOGLE_CLIENT_ID = "";
+        var GCAL_SCOPE = "openid email https://www.googleapis.com/auth/calendar.events";
+        var GCAL_API = "https://www.googleapis.com/calendar/v3";
         var gcalId = "";
         try { gcalId = (new URLSearchParams(location.search).get("b") || "").replace(/\D/g, ""); } catch (e) {}
         var GCAL_KEY = "demo-gcal:" + (gcalId || "geral");
@@ -1644,25 +1661,200 @@
         var gcalModal = document.getElementById("gcal-modal");
         var gcalSync = document.getElementById("gcal-sync");
         var gcalNote = document.getElementById("gcal-note");
+        var gcalAccount = document.getElementById("gcal-account");
+        var gcalBusyCache = {};
         function gcalState() {
           try { return JSON.parse(localStorage.getItem(GCAL_KEY) || "null"); } catch (e) { return null; }
         }
+        function gcalSaveState(s) { try { localStorage.setItem(GCAL_KEY, JSON.stringify(s)); } catch (e) {} }
+        function gcalRealAvailable() { return GOOGLE_CLIENT_ID !== ""; }
+        function gcalRealConnected() { var s = gcalState(); return !!(s && s.connected && s.real && s.token); }
+        function gcalTokenValid() { var s = gcalState(); return !!(s && s.token && s.expires_at && s.expires_at > Date.now() + 60000); }
         function gcalSyncOn() { var s = gcalState(); return !!(s && s.connected && s.sync !== false); }
+        function gcalSealFor(b) {
+          if (!gcalSyncOn()) return "";
+          var s = gcalState();
+          if (s && s.real) return b.gcalSynced ? '<span class="chip gcal-chip">Google Agenda</span>' : "";
+          return '<span class="chip gcal-chip">Google Agenda</span>';
+        }
         function gcalRender() {
           var s = gcalState();
           var on = !!(s && s.connected);
           gcalOff.hidden = on;
           gcalOn.hidden = !on;
           if (gcalSync) gcalSync.checked = !s || s.sync !== false;
+          if (gcalAccount) gcalAccount.textContent = (s && s.real && s.email) ? ("Conectado como " + s.email) : "";
           if (gcalNote) gcalNote.textContent = (s && s.sync === false)
             ? "Sincronização automática desligada — os agendamentos do site não entram na agenda sozinhos."
             : "Conta do Google da barbearia conectada. Os agendamentos do site entram na agenda automaticamente.";
         }
-        document.getElementById("gcal-connect").addEventListener("click", function () { gcalModal.hidden = false; });
+        /* Carrega a biblioteca do Google (GIS) só quando precisa conectar. */
+        var gcalGisLoaded = null;
+        function gcalLoadGis() {
+          if (gcalGisLoaded) return gcalGisLoaded;
+          gcalGisLoaded = new Promise(function (resolve) {
+            if (window.google && window.google.accounts && window.google.accounts.oauth2) { resolve(true); return; }
+            var sc = document.createElement("script");
+            sc.src = "https://accounts.google.com/gsi/client";
+            sc.async = true; sc.defer = true;
+            var done = false;
+            var fin = function (v) { if (!done) { done = true; resolve(v); } };
+            sc.onload = function () { fin(!!(window.google && window.google.accounts && window.google.accounts.oauth2)); };
+            sc.onerror = function () { fin(false); };
+            document.head.appendChild(sc);
+            setTimeout(function () { fin(!!(window.google && window.google.accounts && window.google.accounts.oauth2)); }, 8000);
+          });
+          return gcalGisLoaded;
+        }
+        function gcalRequestToken(promptMode, cb) {
+          gcalLoadGis().then(function (ok) {
+            if (!ok) { cb(false); return; }
+            try {
+              var client = google.accounts.oauth2.initTokenClient({
+                client_id: GOOGLE_CLIENT_ID,
+                scope: GCAL_SCOPE,
+                callback: function (resp) {
+                  if (resp && resp.access_token) {
+                    var s = gcalState() || {};
+                    s.token = resp.access_token;
+                    s.expires_at = Date.now() + (resp.expires_in || 3600) * 1000;
+                    gcalSaveState(s);
+                    cb(true);
+                  } else { cb(false); }
+                },
+                error_callback: function () { cb(false); }
+              });
+              client.requestAccessToken({ prompt: promptMode || "" });
+            } catch (e) { cb(false); }
+          });
+        }
+        function gcalApi(path, method, body, cb) {
+          var s = gcalState();
+          if (!s || !s.token) { cb(null); return; }
+          var attempt = function (retried) {
+            fetch(GCAL_API + path, {
+              method: method,
+              headers: { "Authorization": "Bearer " + (gcalState() || {}).token, "Content-Type": "application/json" },
+              body: body ? JSON.stringify(body) : undefined
+            }).then(function (r) {
+              if (r.status === 401 && !retried) {
+                gcalRequestToken("none", function (ok) { if (ok) attempt(true); else cb(null); });
+                return;
+              }
+              if (!r.ok) { cb(null); return; }
+              r.json().then(function (j) { cb(j); }).catch(function () { cb(null); });
+            }).catch(function () { cb(null); });
+          };
+          attempt(false);
+        }
+        function gcalFetchEmail(cb) {
+          var s = gcalState();
+          if (!s || !s.token) { cb(""); return; }
+          fetch("https://www.googleapis.com/oauth2/v3/userinfo", { headers: { "Authorization": "Bearer " + s.token } })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (j) { cb(j && j.email ? j.email : ""); })
+            .catch(function () { cb(""); });
+        }
+        function gcalConnectReal() {
+          gcalRequestToken("consent", function (ok) {
+            var errEl = document.getElementById("gcal-error");
+            if (!ok) {
+              if (errEl) errEl.hidden = false;
+              gcalModal.hidden = false;
+              return;
+            }
+            gcalFetchEmail(function (email) {
+              var s = gcalState() || {};
+              s.connected = true; s.real = true; s.sync = true;
+              if (email) s.email = email;
+              gcalSaveState(s);
+              gcalModal.hidden = true;
+              gcalRender();
+              renderPanel();
+              gcalRefreshBusy();
+            });
+          });
+        }
+        function gcalTimeToMin(s) {
+          var m = String(s || "").match(/T(\d{2}):(\d{2})/);
+          return m ? (parseInt(m[1], 10) * 60 + parseInt(m[2], 10)) : null;
+        }
+        function gcalBusyFor(dayISO, label) {
+          if (!gcalRealConnected() || !gcalTokenValid()) return false;
+          var list = gcalBusyCache[dayISO];
+          if (!list) return false;
+          var p = String(label).split(":");
+          var mins = parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+          for (var i = 0; i < list.length; i++) {
+            if (mins >= list[i].startMin && mins < list[i].endMin) return true;
+          }
+          return false;
+        }
+        function gcalRefreshBusy(dayISO) {
+          if (!gcalRealConnected()) return;
+          var iso = dayISO || (typeof state !== "undefined" && state ? state.dayISO : null);
+          if (!iso) return;
+          var ensure = gcalTokenValid() ? Promise.resolve(true) : new Promise(function (res) { gcalRequestToken("none", res); });
+          ensure.then(function (ok) {
+            if (!ok) return;
+            var t0 = iso + "T00:00:00-03:00", t1 = iso + "T23:59:59-03:00";
+            gcalApi("/calendars/primary/events?timeMin=" + encodeURIComponent(t0) + "&timeMax=" + encodeURIComponent(t1) + "&singleEvents=true&orderBy=startTime", "GET", null, function (j) {
+              if (!j || !j.items) return;
+              var list = [];
+              j.items.forEach(function (ev) {
+                var st = ev.start && (ev.start.dateTime || ev.start.date);
+                var en = ev.end && (ev.end.dateTime || ev.end.date);
+                if (!st || !en) return;
+                var sm = gcalTimeToMin(st), em = gcalTimeToMin(en);
+                if (sm === null || em === null) return;
+                list.push({ startMin: sm, endMin: em });
+              });
+              gcalBusyCache[iso] = list;
+              if (typeof state !== "undefined" && state && state.dayISO === iso) { renderTimes(); update(); }
+            });
+          });
+        }
+        function gcalServiceMins(serviceId) {
+          for (var i = 0; i < SERVICES.length; i++) if (SERVICES[i].id === serviceId) return SERVICES[i].mins || 30;
+          return 30;
+        }
+        function gcalInsertEvent(booking) {
+          if (!gcalRealConnected() || !gcalSyncOn()) return;
+          var ensure = gcalTokenValid() ? Promise.resolve(true) : new Promise(function (res) { gcalRequestToken("none", res); });
+          ensure.then(function (ok) {
+            if (!ok) return;
+            var p = String(booking.time).split(":");
+            var startMin = parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+            var endMin = startMin + gcalServiceMins(booking.serviceId);
+            var endHH = String(Math.floor(endMin / 60)).padStart(2, "0") + ":" + String(endMin % 60).padStart(2, "0");
+            var body = {
+              summary: booking.serviceName + " — " + booking.name,
+              description: "Agendamento feito pelo site da barbearia.\nCliente: " + booking.name + "\nWhatsApp: " + (booking.phone || "-") + "\nServiço: " + booking.serviceName + " (" + fmtBRL(booking.price) + ")",
+              start: { dateTime: booking.dayISO + "T" + booking.time + ":00", timeZone: "America/Sao_Paulo" },
+              end: { dateTime: booking.dayISO + "T" + endHH + ":00", timeZone: "America/Sao_Paulo" }
+            };
+            gcalApi("/calendars/primary/events", "POST", body, function (j) {
+              if (j && j.id) {
+                AgendaDB.updateBooking(booking.id, { gcalSynced: true, gcalEventId: j.id });
+                renderPanel();
+              }
+            });
+          });
+        }
+        document.getElementById("gcal-connect").addEventListener("click", function () {
+          var modeEl = document.getElementById("gcal-modal-mode");
+          if (modeEl) modeEl.textContent = gcalRealAvailable()
+            ? "Login real com a conta do Google da barbearia."
+            : "Demonstração — nenhuma conta real é conectada aqui.";
+          var errEl = document.getElementById("gcal-error");
+          if (errEl) errEl.hidden = true;
+          gcalModal.hidden = false;
+        });
         document.getElementById("gcal-cancel").addEventListener("click", function () { gcalModal.hidden = true; });
         gcalModal.addEventListener("click", function (e) { if (e.target === gcalModal) gcalModal.hidden = true; });
         document.getElementById("gcal-allow").addEventListener("click", function () {
-          try { localStorage.setItem(GCAL_KEY, JSON.stringify({ connected: true, sync: gcalSync ? gcalSync.checked : true })); } catch (e) {}
+          if (gcalRealAvailable()) { gcalConnectReal(); return; }
+          gcalSaveState({ connected: true, sync: gcalSync ? gcalSync.checked : true });
           gcalModal.hidden = true;
           gcalRender();
           renderPanel();
@@ -1670,12 +1862,17 @@
         if (gcalSync) gcalSync.addEventListener("change", function () {
           var s = gcalState() || { connected: true };
           s.sync = gcalSync.checked;
-          try { localStorage.setItem(GCAL_KEY, JSON.stringify(s)); } catch (e) {}
+          gcalSaveState(s);
           gcalRender();
           renderPanel();
         });
         document.getElementById("gcal-disconnect").addEventListener("click", function () {
+          var s = gcalState();
+          if (s && s.real && s.token) {
+            try { if (window.google && google.accounts && google.accounts.oauth2) google.accounts.oauth2.revoke(s.token, function () {}); } catch (e) {}
+          }
           try { localStorage.removeItem(GCAL_KEY); } catch (e) {}
+          gcalBusyCache = {};
           gcalRender();
           renderPanel();
         });
@@ -1781,7 +1978,7 @@
               (digits ? " · " + esc(b.phone) : "") +
               "</div></div>" +
               '<span class="chip ' + b.status + '">' + (b.status === "confirmado" ? "Confirmado" : "Pendente") + "</span>" +
-              (gcalSyncOn() ? '<span class="chip gcal-chip">Google Agenda</span>' : "");
+              gcalSealFor(b);
             var actions = document.createElement("div");
             actions.className = "bk-actions";
             if (waNum) {
