@@ -173,6 +173,7 @@
   .step-card{grid-area:1/1;will-change:transform;max-width:560px}
   @media (max-width:767px){.step-card{border-radius:calc(var(--radius)*2);padding:20px;
     background:color-mix(in srgb,var(--bg) 70%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}}
+  @media (max-width:767px){#root-escuro .step-card{--bg:#FBFAF7;--ink:#121212;--muted:#5A5A57;--accent:#A87C3D;--line:#D8D5CE;--radius:2px;color:#121212;background:rgba(251,250,247,.95)}}
   .steps-bar{position:absolute;left:-24px;top:0;display:none;height:100%;width:1px;background:var(--line)}
   @media (min-width:768px){.steps-bar{display:block}}
   .steps-bar .fill{height:100%;width:1px;transform-origin:top;background:var(--accent);will-change:transform}
