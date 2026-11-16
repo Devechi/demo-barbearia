@@ -60,7 +60,7 @@
   .panel-solid{background:var(--bg)}
   .panel-glass{background:color-mix(in srgb,var(--bg) 62%,transparent);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
   .text-halo{text-shadow:0 0 18px var(--bg),0 0 42px var(--bg),0 2px 80px var(--bg)}
-  .text-mega{font-family:var(--font-display);font-size:clamp(3rem,7.6vw,8.75rem);line-height:.94;letter-spacing:-.045em;text-wrap:balance}
+  .text-mega{font-family:var(--font-display);font-size:clamp(3rem,7.6vw,8.75rem);line-height:.94;letter-spacing:-.045em;text-wrap:balance;overflow-wrap:break-word}
   .text-h1{font-size:clamp(2.25rem,4vw + 1rem,4rem);line-height:1.05;letter-spacing:-.02em}
   .text-h2{font-size:clamp(1.75rem,2.5vw + 1rem,3rem);line-height:1.1;letter-spacing:-.015em}
   .text-h3{font-size:clamp(1.25rem,.6vw + 1rem,1.5rem);line-height:1.25}
@@ -234,7 +234,7 @@
   .gal-dark{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
   @media (min-width:768px){.gal-dark{grid-template-columns:repeat(4,1fr);gap:16px}}
   .gal-dark .frame-cinema{aspect-ratio:3/4}
-  .split-words .word{display:inline-block;animation:wordUp .7s cubic-bezier(.2,.7,.2,1) both}
+  .split-words .word{display:inline-block;max-width:100%;overflow-wrap:break-word;animation:wordUp .7s cubic-bezier(.2,.7,.2,1) both}
   @keyframes wordUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
   @media (prefers-reduced-motion:reduce){.split-words .word{animation:none}}
   @media (max-width:520px){.btn-rect.small .lbl{display:none}.brand{font-size:12px}}
@@ -755,10 +755,34 @@
     else theme = localStorage.getItem(KEY) || 'claro';
   } catch (e) {}
   function applyTheme(t){
+    /* a troca de tema nao pode mexer a tela: ancora na secao visivel no topo */
+    var root = document.getElementById(theme === 'claro' ? 'root-claro' : 'root-escuro');
+    var secs = root ? root.querySelectorAll('section') : [];
+    var y = window.scrollY || window.pageYOffset || 0;
+    var idx = 0, off = 0;
+    for (var i = 0; i < secs.length; i++) {
+      var top = secs[i].getBoundingClientRect().top + y;
+      if (top <= y + 88) { idx = i; off = y - top; } else { break; }
+    }
     theme = t;
     document.documentElement.setAttribute('data-theme', t);
     try { localStorage.setItem(KEY, t); } catch (e) {}
     initStage();
+    /* restaura a mesma secao na mesma posicao, sem animacao (o html tem scroll suave) */
+    var root2 = document.getElementById(t === 'claro' ? 'root-claro' : 'root-escuro');
+    var secs2 = root2 ? root2.querySelectorAll('section') : [];
+    var target = secs2[Math.min(idx, secs2.length - 1)];
+    if (target) {
+      var y2 = window.scrollY || window.pageYOffset || 0;
+      var top2 = target.getBoundingClientRect().top + y2;
+      var max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      var dest = Math.max(0, Math.min(max, top2 + off));
+      var de = document.documentElement;
+      var prev = de.style.scrollBehavior;
+      de.style.scrollBehavior = 'auto';
+      window.scrollTo(0, dest);
+      de.style.scrollBehavior = prev;
+    }
   }
   document.getElementById('themeBtn').addEventListener('click', function(){
     applyTheme(theme === 'claro' ? 'escuro' : 'claro');
