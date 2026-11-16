@@ -34,6 +34,7 @@
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-bottom:72px}
   @media (min-width:768px){body{padding-bottom:0}}
   html[data-theme="escuro"] body{background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 80px),repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 1px,transparent 1px 80px)}
+  html[data-theme="claro"] body{background-image:repeating-linear-gradient(0deg,rgba(18,18,18,.05) 0 1px,transparent 1px 80px),repeating-linear-gradient(90deg,rgba(18,18,18,.05) 0 1px,transparent 1px 80px)}
   a{color:inherit}
   img{display:block;max-width:100%}
   h1,h2,h3{font-family:var(--font-display);text-transform:uppercase;text-wrap:balance;letter-spacing:-.01em;margin:0}
@@ -108,7 +109,11 @@
 
   /* ============ capitulos (tela cheia sobre o 3D) ============ */
   .chapter{position:relative;display:flex;min-height:100svh;align-items:center;padding:112px 0}
-  @media (max-width:767px){.chapter{align-items:flex-end;padding:160px 0 96px}}
+  @media (max-width:767px){.chapter{min-height:0;align-items:center;padding:88px 0 72px}
+    .zoom-section{height:auto !important}
+    .zoom-section>div{position:static !important;height:auto !important;padding:88px 0 72px}
+    #zoomWord{opacity:1 !important;transform:none !important}
+    #zoomAfter{opacity:1 !important;transform:none !important}}
   .chapter.center{justify-content:center;text-align:center}
 
   /* ============ galeria editorial (claro) / moldura cinema (escuro) ============ */
@@ -172,8 +177,9 @@
   @media (min-width:768px){.steps-bar{display:block}}
   .steps-bar .fill{height:100%;width:1px;transform-origin:top;background:var(--accent);will-change:transform}
   .steps-count{margin-top:24px;font-family:var(--font-mono);font-size:12px;letter-spacing:.3em;color:var(--muted)}
-  .sticky-steps.static .sticky-steps-sticky{position:static;height:auto;display:block;padding:96px 0}
-  .sticky-steps.static .step-card{opacity:1 !important;transform:none !important;visibility:visible !important;margin-bottom:96px}
+  .sticky-steps.static .sticky-steps-sticky{position:static;height:auto;display:block;padding:64px 0}
+  .sticky-steps.static .steps-grid{display:block}
+  .sticky-steps.static .step-card{grid-area:auto;opacity:1 !important;transform:none !important;visibility:visible !important;margin-bottom:56px}
   .sticky-steps.static .steps-bar{display:none}
 
   /* ============ faixa CTA ============ */
@@ -826,13 +832,9 @@
     cancelAnimationFrame(raf);
     sizeStage();
     var light = theme === 'claro';
-    mode = light ? 'blobs' : 'parts';
+    mode = light ? 'none' : 'parts';
     if (light) {
-      blobs = [
-        { sp: blobSprite('#A87C3D'), x: .68, y: .28, r: .42, ph: 0, sp2: .00011 },
-        { sp: blobSprite('#7A5A28'), x: .82, y: .62, r: .30, ph: 2.1, sp2: .00009 },
-        { sp: blobSprite('#E8E0D2'), x: .55, y: .75, r: .26, ph: 4.2, sp2: .00007 }
-      ];
+      blobs = []; parts = [];
     } else {
       parts = [];
       for (var i = 0; i < 90; i++) parts.push({
@@ -856,6 +858,7 @@
     if (!ctx) return;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
+    if (mode === 'none') return;
     if (mode === 'blobs') {
       blobs.forEach(function(bl){
         var x = (bl.x + Math.sin(t * bl.sp2 + bl.ph) * .03) * W;
@@ -963,9 +966,15 @@
     var steps = Array.prototype.slice.call(sec.querySelectorAll('[data-step]'));
     var barEl = sec.querySelector('[data-steps-bar]');
     var n = steps.length;
-    if (reduced) { sec.classList.add('static'); return; }
-    sec.style.height = (n * 100) + 'vh';
+    function layoutSteps(){
+      var pin = !reduced && window.innerWidth >= 768;
+      if (!pin) { sec.classList.add('static'); sec.style.height = ''; return; }
+      sec.classList.remove('static');
+      sec.style.height = (n * 100) + 'vh';
+      tickSteps();
+    }
     function tickSteps(){
+      if (sec.classList.contains('static')) return;
       var r = sec.getBoundingClientRect();
       var p = clamp01(-r.top / Math.max(1, r.height - window.innerHeight));
       var pos = p * Math.max(1, n - 1);
@@ -983,7 +992,8 @@
       if (rafS) return; rafS = true;
       requestAnimationFrame(function(){ tickSteps(); rafS = false; });
     }, { passive: true });
-    tickSteps();
+    window.addEventListener('resize', layoutSteps);
+    layoutSteps();
   });
 
   /* ---------- contadores (le o numero atual: a personalizacao vence) ---------- */
@@ -1026,7 +1036,7 @@
         za.style.transform = 'scale(' + (0.92 + v * 0.08).toFixed(3) + ')';
       }
     }
-    if (reduced) { if (zw) zw.style.opacity = 1; if (za) { za.style.opacity = 1; za.style.transform = 'none'; } }
+    if (reduced || window.innerWidth < 768) { if (zw) zw.style.opacity = 1; if (za) { za.style.opacity = 1; za.style.transform = 'none'; } }
     else {
       var rafZ = false;
       window.addEventListener('scroll', function(){
