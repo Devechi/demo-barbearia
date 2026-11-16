@@ -60,7 +60,8 @@
   .panel-solid{background:var(--bg)}
   .panel-glass{background:color-mix(in srgb,var(--bg) 62%,transparent);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
   .text-halo{text-shadow:0 0 18px var(--bg),0 0 42px var(--bg),0 2px 80px var(--bg)}
-  .text-mega{font-family:var(--font-display);font-size:clamp(3rem,7.6vw,8.75rem);line-height:.94;letter-spacing:-.045em;text-wrap:balance;overflow-wrap:break-word}
+  .text-mega{font-family:var(--font-display);font-size:clamp(3rem,7.6vw,8.75rem);line-height:.94;letter-spacing:-.045em;text-wrap:balance}
+  @media (max-width:520px){.text-mega{font-size:clamp(2.25rem,9vw,3rem)}}
   .text-h1{font-size:clamp(2.25rem,4vw + 1rem,4rem);line-height:1.05;letter-spacing:-.02em}
   .text-h2{font-size:clamp(1.75rem,2.5vw + 1rem,3rem);line-height:1.1;letter-spacing:-.015em}
   .text-h3{font-size:clamp(1.25rem,.6vw + 1rem,1.5rem);line-height:1.25}
@@ -234,7 +235,7 @@
   .gal-dark{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
   @media (min-width:768px){.gal-dark{grid-template-columns:repeat(4,1fr);gap:16px}}
   .gal-dark .frame-cinema{aspect-ratio:3/4}
-  .split-words .word{display:inline-block;max-width:100%;overflow-wrap:break-word;animation:wordUp .7s cubic-bezier(.2,.7,.2,1) both}
+  .split-words .word{display:inline-block;max-width:100%;animation:wordUp .7s cubic-bezier(.2,.7,.2,1) both}
   @keyframes wordUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
   @media (prefers-reduced-motion:reduce){.split-words .word{animation:none}}
   @media (max-width:520px){.btn-rect.small .lbl{display:none}.brand{font-size:12px}}
@@ -1150,6 +1151,30 @@
         }
         if (t !== orig) node.nodeValue = t;
       }
+
+      /* Barra em bairro composto (ex.: Jardins/Pinheiros): o navegador nao
+         quebra depois da barra sozinho e o token nao cabe na linha; o <wbr>
+         deixa quebrar ali, sem cortar palavra no meio. Vale para todo texto
+         visivel (titulo, passos, contato, rodape). */
+      var wbrWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+        acceptNode: function (n) {
+          var tag = n.parentNode && n.parentNode.nodeName;
+          if (!tag || tag === 'SCRIPT' || tag === 'STYLE') return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      });
+      var wbrNodes = [];
+      var wn;
+      while ((wn = wbrWalker.nextNode())) { if (wn.nodeValue.indexOf('/') !== -1) wbrNodes.push(wn); }
+      wbrNodes.forEach(function (n) {
+        var parts = n.nodeValue.split('/');
+        var frag = document.createDocumentFragment();
+        parts.forEach(function (part, i) {
+          if (i > 0) { frag.appendChild(document.createTextNode('/')); frag.appendChild(document.createElement('wbr')); }
+          if (part) frag.appendChild(document.createTextNode(part));
+        });
+        n.parentNode.replaceChild(frag, n);
+      });
 
       /* Selo e avaliações: nada de numero inventado na demo do prospect.
          O template ja traz 1 cartao de avaliacao com a nota e o total reais
