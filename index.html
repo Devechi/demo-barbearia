@@ -619,6 +619,20 @@
       .block-item:last-child { border-bottom: 0; padding-bottom: 2px; }
       .panel-note { color: var(--faint); font-size: 13px; margin: 12px 0 0; }
       .panel-empty { color: var(--muted); font-size: 14.5px; margin: 0; padding: 4px 0; }
+      .gcal-status { display: flex; align-items: center; gap: 8px; font-weight: 700; margin: 0 0 8px; }
+      .gcal-dot { width: 10px; height: 10px; border-radius: 50%; background: #34a853; box-shadow: 0 0 0 3px rgba(52, 168, 83, 0.2); flex: 0 0 auto; }
+      .gcal-toggle { display: flex; align-items: center; gap: 9px; font-size: 14.5px; cursor: pointer; }
+      .gcal-toggle input { width: 18px; height: 18px; accent-color: #1a73e8; flex: 0 0 auto; }
+      .gcal-btn-g { display: inline-flex; align-items: center; gap: 9px; }
+      .chip.gcal-chip { color: #8ab4f8; border-color: rgba(138, 180, 248, 0.5); }
+      .gcal-modal { position: fixed; inset: 0; z-index: 110; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(0, 0, 0, 0.65); }
+      .gcal-modal[hidden] { display: none; }
+      .gcal-modal-box { width: 100%; max-width: 430px; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+      .gcal-modal-box h4 { margin: 0 0 6px; font-size: 18px; }
+      .gcal-modal-box p { color: var(--muted); font-size: 14.5px; margin: 0 0 12px; }
+      .gcal-modal-box ul { margin: 0 0 18px; padding-left: 20px; font-size: 14.5px; }
+      .gcal-modal-box ul li { margin-bottom: 6px; }
+      .gcal-modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
 
       /* Painel no celular: respiro maior e ações em linha própria */
       @media (max-width: 640px) {
@@ -1180,8 +1194,39 @@
             <div id="panel-blocks" style="margin-top:8px"></div>
           </div>
 
+          <div class="panel-card">
+            <h3>Google Agenda</h3>
+            <div id="gcal-off">
+              <p class="panel-note" style="margin:0 0 12px">Conecte a agenda do Google da barbearia: os agendamentos feitos no site entram no Google Agenda, e os compromissos que você já tem lá aparecem aqui — sem marcar dois clientes no mesmo horário.</p>
+              <button class="btn btn-gold btn-sm gcal-btn-g" id="gcal-connect" type="button"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.31 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.98-3.09z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09C6.22 6.86 8.87 4.75 12 4.75z"/></svg> Conectar Google Agenda</button>
+            </div>
+            <div id="gcal-on" hidden>
+              <p class="gcal-status"><span class="gcal-dot"></span> Conectado ao Google Agenda</p>
+              <p class="panel-note" id="gcal-note" style="margin:0 0 12px">Conta do Google da barbearia conectada. Os agendamentos do site entram na agenda automaticamente.</p>
+              <label class="gcal-toggle"><input type="checkbox" id="gcal-sync" checked /> Sincronizar novos agendamentos automaticamente</label>
+              <div style="margin-top:14px"><button class="btn btn-ghost btn-sm" id="gcal-disconnect" type="button">Desconectar</button></div>
+            </div>
+          </div>
+
           <p class="panel-note">Demonstração: os agendamentos ficam salvos neste navegador. Na versão de cada cliente, a agenda conecta no banco de dados dele e vale pra todo mundo em tempo real.</p>
           <button class="btn btn-ghost btn-sm" id="panel-reset" type="button" style="margin-top:14px">Apagar dados da demonstração</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="gcal-modal" id="gcal-modal" hidden>
+      <div class="gcal-modal-box" role="dialog" aria-label="Conectar Google Agenda">
+        <h4>Conectar Google Agenda</h4>
+        <p>O site vai pedir acesso à Conta do Google da barbearia para:</p>
+        <ul>
+          <li>Ver e editar os eventos da agenda</li>
+          <li>Criar um evento para cada agendamento feito no site</li>
+          <li>Evitar conflito com os compromissos que já estão na agenda</li>
+        </ul>
+        <p>Na versão de cada cliente, a conexão é feita com a conta dele, direto no Google — nenhuma senha fica no site.</p>
+        <div class="gcal-modal-actions">
+          <button class="btn btn-ghost btn-sm" id="gcal-cancel" type="button">Cancelar</button>
+          <button class="btn btn-gold btn-sm" id="gcal-allow" type="button">Permitir acesso</button>
         </div>
       </div>
     </div>
@@ -1606,6 +1651,52 @@
         document.getElementById("pin-btn").addEventListener("click", tryPin);
         pinInput.addEventListener("keydown", function (e) { if (e.key === "Enter") tryPin(); });
 
+        /* ----- Google Agenda (demonstração: conexão simulada) ----- */
+        var gcalId = "";
+        try { gcalId = (new URLSearchParams(location.search).get("b") || "").replace(/\D/g, ""); } catch (e) {}
+        var GCAL_KEY = "demo-gcal:" + (gcalId || "geral");
+        var gcalOff = document.getElementById("gcal-off");
+        var gcalOn = document.getElementById("gcal-on");
+        var gcalModal = document.getElementById("gcal-modal");
+        var gcalSync = document.getElementById("gcal-sync");
+        var gcalNote = document.getElementById("gcal-note");
+        function gcalState() {
+          try { return JSON.parse(localStorage.getItem(GCAL_KEY) || "null"); } catch (e) { return null; }
+        }
+        function gcalSyncOn() { var s = gcalState(); return !!(s && s.connected && s.sync !== false); }
+        function gcalRender() {
+          var s = gcalState();
+          var on = !!(s && s.connected);
+          gcalOff.hidden = on;
+          gcalOn.hidden = !on;
+          if (gcalSync) gcalSync.checked = !s || s.sync !== false;
+          if (gcalNote) gcalNote.textContent = (s && s.sync === false)
+            ? "Sincronização automática desligada — os agendamentos do site não entram na agenda sozinhos."
+            : "Conta do Google da barbearia conectada. Os agendamentos do site entram na agenda automaticamente.";
+        }
+        document.getElementById("gcal-connect").addEventListener("click", function () { gcalModal.hidden = false; });
+        document.getElementById("gcal-cancel").addEventListener("click", function () { gcalModal.hidden = true; });
+        gcalModal.addEventListener("click", function (e) { if (e.target === gcalModal) gcalModal.hidden = true; });
+        document.getElementById("gcal-allow").addEventListener("click", function () {
+          try { localStorage.setItem(GCAL_KEY, JSON.stringify({ connected: true, sync: gcalSync ? gcalSync.checked : true })); } catch (e) {}
+          gcalModal.hidden = true;
+          gcalRender();
+          renderPanel();
+        });
+        if (gcalSync) gcalSync.addEventListener("change", function () {
+          var s = gcalState() || { connected: true };
+          s.sync = gcalSync.checked;
+          try { localStorage.setItem(GCAL_KEY, JSON.stringify(s)); } catch (e) {}
+          gcalRender();
+          renderPanel();
+        });
+        document.getElementById("gcal-disconnect").addEventListener("click", function () {
+          try { localStorage.removeItem(GCAL_KEY); } catch (e) {}
+          gcalRender();
+          renderPanel();
+        });
+        gcalRender();
+
         /* ----- Agenda do dia ----- */
         var panelDaysEl = document.getElementById("panel-days");
         var panelSlotsEl = document.getElementById("panel-slots");
@@ -1657,7 +1748,7 @@
               cell.title = "Toque para bloquear";
             }
             cell.innerHTML = inner;
-            if (!bk && !closedDay && !past) {
+            if (!bk && !past) {
               if (bl) {
                 cell.addEventListener("click", function () {
                   AgendaDB.removeBlock(bl.id);
@@ -1705,7 +1796,8 @@
               '<div class="dtl">' + esc(b.serviceName) + " · " + esc(b.dayText || shortDayLabel(b.dayISO)) + " às " + esc(b.time) +
               (digits ? " · " + esc(b.phone) : "") +
               "</div></div>" +
-              '<span class="chip ' + b.status + '">' + (b.status === "confirmado" ? "Confirmado" : "Pendente") + "</span>";
+              '<span class="chip ' + b.status + '">' + (b.status === "confirmado" ? "Confirmado" : "Pendente") + "</span>" +
+              (gcalSyncOn() ? '<span class="chip gcal-chip">Google Agenda</span>' : "");
             var actions = document.createElement("div");
             actions.className = "bk-actions";
             if (waNum) {
