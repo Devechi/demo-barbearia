@@ -14869,25 +14869,15 @@
 "googleRating": null,
 "googleReviews": null
 },
-"61999938412": {
-"name": "Barbearia Miragem",
-"city": "Brasília/DF",
-"neighborhood": "Sobradinho — Mansões Sobradinho",
-"address": "SH Mansões Sobradinho, Condomínio Mini-Chácaras, QMS 1B, loja 02",
-"phone": "(61) 99993-8412",
-"instagram": "barbearia.miragem",
-"googleRating": 5.0,
-"googleReviews": 21
-},
-"81988669025": {
-"name": "Romão Costa Cabelos",
-"city": "Recife/PE",
-"neighborhood": "Boa Vista",
-"address": "R. Princesa Isabel, 205",
-"phone": "(81) 98866-9025",
-"instagram": "romaocosta21",
+"19994358176": {
+"name": "Barbearia Alves'S",
+"city": "Campinas/SP",
+"neighborhood": "Dic V de Março",
+"address": "R. Donga, 841",
+"phone": "(19) 99435-8176",
+"instagram": "",
 "googleRating": 4.9,
-"googleReviews": 43
+"googleReviews": 19
 },
 "92991280073": {
 "name": "Barões Barbershop",
@@ -14906,18 +14896,28 @@
 "address": "Rod. Virgílio Várzea, 518 – sala 3 superior",
 "phone": "(48) 99661-3722",
 "instagram": "barbeariagauchoegalego",
-"googleRating": 5.0,
+"googleRating": 5,
 "googleReviews": 32
 },
-"19994358176": {
-"name": "Barbearia Alves'S",
-"city": "Campinas/SP",
-"neighborhood": "Dic V de Março",
-"address": "R. Donga, 841",
-"phone": "(19) 99435-8176",
-"instagram": "",
+"61999938412": {
+"name": "Barbearia Miragem",
+"city": "Brasília/DF",
+"neighborhood": "Sobradinho — Mansões Sobradinho",
+"address": "SH Mansões Sobradinho, Condomínio Mini-Chácaras, QMS 1B, loja 02",
+"phone": "(61) 99993-8412",
+"instagram": "barbearia.miragem",
+"googleRating": 5,
+"googleReviews": 21
+},
+"81988669025": {
+"name": "Romão Costa Cabelos",
+"city": "Recife/PE",
+"neighborhood": "Boa Vista",
+"address": "R. Princesa Isabel, 205",
+"phone": "(81) 98866-9025",
+"instagram": "romaocosta21",
 "googleRating": 4.9,
-"googleReviews": 19
+"googleReviews": 43
 },
 "48988292137": {
 "name": "Mestres da Barbearia",
@@ -14926,8 +14926,48 @@
 "address": "Rodovia Dr. Antônio Luiz Moura Gonzaga, 4081",
 "phone": "(48) 98829-2137",
 "instagram": "",
-"googleRating": 5.0,
+"googleRating": 5,
 "googleReviews": 35
+},
+"61991435655": {
+"name": "Barbearia Sant'Anna",
+"city": "Brasília/DF",
+"neighborhood": "Sobradinho",
+"address": "Ar 06, conjunto 01, Sobradinho/DF",
+"phone": "(61) 99143-5655",
+"instagram": "barbeariasantannaoficial",
+"googleRating": 5,
+"googleReviews": 13
+},
+"81986370569": {
+"name": "Barbearia Seu Lima",
+"city": "Recife/PE",
+"neighborhood": "Dois Irmãos",
+"address": "R. Ladeira de Pedra, 965",
+"phone": "(81) 98637-0569",
+"instagram": "",
+"googleRating": 5,
+"googleReviews": 10
+},
+"4833076006": {
+"name": "Barbearia Chaves",
+"city": "Florianópolis/SC",
+"neighborhood": "Córrego Grande",
+"address": "R. João Pio Duarte Silva, 1350",
+"phone": "(48) 3307-6006",
+"instagram": "barbeariachavesfloripa",
+"googleRating": 5,
+"googleReviews": 24
+},
+"81985595573": {
+"name": "Barbearia Rogério Augusto",
+"city": "Recife/PE",
+"neighborhood": "Santo Amaro",
+"address": "1ª Travessa - R. Campo do Onze",
+"phone": "(81) 98559-5573",
+"instagram": "rogerioaugust0",
+"googleRating": null,
+"googleReviews": null
 },
 "71982171243": {
 "name": "Barber Novo Corte",
@@ -14946,58 +14986,8 @@
 "address": "Av. Oscar Araripe, 3861",
 "phone": "(85) 98706-8577",
 "instagram": "barbeariaofarias",
-"googleRating": 5.0,
+"googleRating": 5,
 "googleReviews": 17
-},
-"81986370569": {
-"name": "Barbearia Seu Lima",
-"city": "Recife/PE",
-"neighborhood": "Dois Irmãos",
-"address": "R. Ladeira de Pedra, 965",
-"phone": "(81) 98637-0569",
-"instagram": "",
-"googleRating": 5.0,
-"googleReviews": 10
-},
-"81985595573": {
-"name": "Barbearia Rogério Augusto",
-"city": "Recife/PE",
-"neighborhood": "Santo Amaro",
-"address": "1ª Travessa - R. Campo do Onze",
-"phone": "(81) 98559-5573",
-"instagram": "rogerioaugust0",
-"googleRating": null,
-"googleReviews": null
-},
-"61991435655": {
-"name": "Barbearia Sant'Anna",
-"city": "Brasília/DF",
-"neighborhood": "Sobradinho",
-"address": "Ar 06, conjunto 01, Sobradinho/DF",
-"phone": "(61) 99143-5655",
-"instagram": "barbeariasantannaoficial",
-"googleRating": 5.0,
-"googleReviews": 13
-},
-"4833076006": {
-"name": "Barbearia Chaves",
-"city": "Florianópolis/SC",
-"neighborhood": "Córrego Grande",
-"address": "R. João Pio Duarte Silva, 1350",
-"phone": "(48) 3307-6006",
-"instagram": "barbeariachavesfloripa",
-"googleRating": 5.0,
-"googleReviews": 24
-},
-"14997702692": {
-"name": "Estilo Livre Barbearia",
-"city": "Bauru/SP",
-"neighborhood": "",
-"address": "R. Carmo Teodoro da Silva, 1-39, Bauru - SP",
-"phone": "(14) 99770-2692",
-"instagram": "",
-"googleRating": 5.0,
-"googleReviews": 62
 },
 "12991588516": {
 "name": "Barbearia Black Beard",
@@ -15009,6 +14999,36 @@
 "googleRating": 4.9,
 "googleReviews": 51
 },
+"21951015002": {
+"name": "Barbearia Podium",
+"city": "São Gonçalo/RJ",
+"neighborhood": "Centro",
+"address": "Av. Presidente Kennedy, 425 - Partage Shopping, 2º piso, Centro, São Gonçalo - RJ",
+"phone": "(21) 95101-5002",
+"instagram": "",
+"googleRating": 5,
+"googleReviews": 3
+},
+"24992696487": {
+"name": "Barbearia Estação Hair Style",
+"city": "Petrópolis/RJ",
+"neighborhood": "",
+"address": "Petrópolis - RJ",
+"phone": "(24) 99269-6487",
+"instagram": "",
+"googleRating": 5,
+"googleReviews": 2
+},
+"21977999898": {
+"name": "Barbearia Patmos",
+"city": "Belford Roxo/RJ",
+"neighborhood": "",
+"address": "Av. Estrela Branca, 4 - quadra 27, Belford Roxo - RJ",
+"phone": "(21) 97799-9898",
+"instagram": "barbeariapatmos",
+"googleRating": 5,
+"googleReviews": 2
+},
 "2422310103": {
 "name": "Barbearia Navaho",
 "city": "Petrópolis/RJ",
@@ -15019,35 +15039,15 @@
 "googleRating": 4.9,
 "googleReviews": 136
 },
-"24992696487": {
-"name": "Barbearia Estação Hair Style",
-"city": "Petrópolis/RJ",
+"14997702692": {
+"name": "Estilo Livre Barbearia",
+"city": "Bauru/SP",
 "neighborhood": "",
-"address": "Petrópolis - RJ",
-"phone": "(24) 99269-6487",
+"address": "R. Carmo Teodoro da Silva, 1-39, Bauru - SP",
+"phone": "(14) 99770-2692",
 "instagram": "",
-"googleRating": 5.0,
-"googleReviews": 2
-},
-"21977999898": {
-"name": "Barbearia Patmos",
-"city": "Belford Roxo/RJ",
-"neighborhood": "",
-"address": "Av. Estrela Branca, 4 - quadra 27, Belford Roxo - RJ",
-"phone": "(21) 97799-9898",
-"instagram": "barbeariapatmos",
-"googleRating": 5.0,
-"googleReviews": 2
-},
-"21951015002": {
-"name": "Barbearia Podium",
-"city": "São Gonçalo/RJ",
-"neighborhood": "Centro",
-"address": "Av. Presidente Kennedy, 425 - Partage Shopping, 2º piso, Centro, São Gonçalo - RJ",
-"phone": "(21) 95101-5002",
-"instagram": "",
-"googleRating": 5.0,
-"googleReviews": 3
+"googleRating": 5,
+"googleReviews": 62
 },
 "21985387044": {
 "name": "Barbearia 25",
@@ -15056,18 +15056,8 @@
 "address": "R. Leci dos Réis, 25, São Gonçalo - RJ",
 "phone": "(21) 98538-7044",
 "instagram": "",
-"googleRating": 5.0,
+"googleRating": 5,
 "googleReviews": 3
-},
-"11930072743": {
-"name": "Original BarberShop",
-"city": "Guarulhos/SP",
-"neighborhood": "Taboão",
-"address": "R. Luís Melone, 114 - Taboão, Guarulhos - SP",
-"phone": "(11) 93007-2743",
-"instagram": "",
-"googleRating": 4.8,
-"googleReviews": 14
 },
 "21992677553": {
 "name": "Barbearia Rick Dos Anjos",
@@ -15076,6 +15066,16 @@
 "address": "Av. Joaquim da Costa Lima, Lote 5 - Quadra A Loja B, Belford Roxo - RJ",
 "phone": "(21) 99267-7553",
 "instagram": "barbeariarickdosanjos",
+"googleRating": null,
+"googleReviews": null
+},
+"24988540696": {
+"name": "Barbearia Moreno Barber Bingen",
+"city": "Petrópolis/RJ",
+"neighborhood": "Bingen",
+"address": "R. Bingen, 1997, Petrópolis - RJ",
+"phone": "(24) 98854-0696",
+"instagram": "",
 "googleRating": null,
 "googleReviews": null
 },
@@ -15089,6 +15089,16 @@
 "googleRating": null,
 "googleReviews": null
 },
+"11930072743": {
+"name": "Original BarberShop",
+"city": "Guarulhos/SP",
+"neighborhood": "Taboão",
+"address": "R. Luís Melone, 114 - Taboão, Guarulhos - SP",
+"phone": "(11) 93007-2743",
+"instagram": "",
+"googleRating": 4.8,
+"googleReviews": 14
+},
 "21982905162": {
 "name": "Barbearia Bolt Barbershop - Redentor",
 "city": "Belford Roxo/RJ",
@@ -15099,15 +15109,25 @@
 "googleRating": 4.2,
 "googleReviews": 10
 },
-"24988540696": {
-"name": "Barbearia Moreno Barber Bingen",
-"city": "Petrópolis/RJ",
-"neighborhood": "Bingen",
-"address": "R. Bingen, 1997, Petrópolis - RJ",
-"phone": "(24) 98854-0696",
+"83991146018": {
+"name": "Borborema Barbearia",
+"city": "Campina Grande/PB",
+"neighborhood": "",
+"address": "R. Getúlio Cavalcante, 250, Campina Grande/PB",
+"phone": "(83) 99114-6018",
+"instagram": "borboremabarbearia",
+"googleRating": 5,
+"googleReviews": 13
+},
+"63984815693": {
+"name": "Barbearia Toledo",
+"city": "Palmas/TO",
+"neighborhood": "202 Sul",
+"address": "ACSU-SE 20 (202 Sul), Av. Siqueira Campos, Conj. 1, Lote 13, Sala 1",
+"phone": "(63) 98481-5693",
 "instagram": "",
-"googleRating": null,
-"googleReviews": null
+"googleRating": 5,
+"googleReviews": 50
 },
 "2141194786": {
 "name": "Barbearia do Yago",
@@ -15119,15 +15139,15 @@
 "googleRating": null,
 "googleReviews": null
 },
-"83991146018": {
-"name": "Borborema Barbearia",
+"83998074276": {
+"name": "Caio's Barbearia Catolé",
 "city": "Campina Grande/PB",
-"neighborhood": "",
-"address": "R. Getúlio Cavalcante, 250, Campina Grande/PB",
-"phone": "(83) 99114-6018",
-"instagram": "borboremabarbearia",
-"googleRating": 5.0,
-"googleReviews": 13
+"neighborhood": "Catolé",
+"address": "R. Basílio Araújo, 843, Campina Grande/PB",
+"phone": "(83) 99807-4276",
+"instagram": "caiosbarbearia_",
+"googleRating": null,
+"googleReviews": null
 },
 "75983490804": {
 "name": "Barber estilo",
@@ -15139,35 +15159,25 @@
 "googleRating": 4.9,
 "googleReviews": 33
 },
-"83998074276": {
-"name": "Caio's Barbearia Catolé",
-"city": "Campina Grande/PB",
-"neighborhood": "Catolé",
-"address": "R. Basílio Araújo, 843, Campina Grande/PB",
-"phone": "(83) 99807-4276",
-"instagram": "caiosbarbearia_",
-"googleRating": null,
-"googleReviews": null
-},
-"63984815693": {
-"name": "Barbearia Toledo",
-"city": "Palmas/TO",
-"neighborhood": "202 Sul",
-"address": "ACSU-SE 20 (202 Sul), Av. Siqueira Campos, Conj. 1, Lote 13, Sala 1",
-"phone": "(63) 98481-5693",
+"15997478351": {
+"name": "Farias Hair Cabeleireiro Masculino",
+"city": "Sorocaba/SP",
+"neighborhood": "Vila Barcelona",
+"address": "Av. Paraguai, 1040 — Sorocaba/SP",
+"phone": "(15) 99747-8351",
 "instagram": "",
-"googleRating": 5.0,
-"googleReviews": 50
+"googleRating": 5,
+"googleReviews": 1
 },
-"12988224104": {
-"name": "Moisés Retrô Barber Shop",
-"city": "São José dos Campos/SP",
-"neighborhood": "Vila Industrial",
-"address": "Av. Barbacena, 246 — São José dos Campos/SP",
-"phone": "(12) 98822-4104",
-"instagram": "",
-"googleRating": 5.0,
-"googleReviews": 49
+"11975377582": {
+"name": "Barbearia Bentini",
+"city": "Jundiaí/SP",
+"neighborhood": "Vila Progresso",
+"address": "Av. Samuel Martins, 408, Jundiaí/SP",
+"phone": "(11) 97537-7582",
+"instagram": "@barbearia_bentini",
+"googleRating": 5,
+"googleReviews": 101
 },
 "15981229144": {
 "name": "Barbearia Victor",
@@ -15176,27 +15186,17 @@
 "address": "R. Sir Alexander Fleming, 162 — Sorocaba/SP",
 "phone": "(15) 98122-9144",
 "instagram": "",
-"googleRating": 5.0,
+"googleRating": 5,
 "googleReviews": 4
 },
-"12988150173": {
-"name": "Ibere Barbearia",
-"city": "São José dos Campos/SP",
-"neighborhood": "Zona Sul",
-"address": "Av. Nicanor Reis, 71 — São José dos Campos/SP",
-"phone": "(12) 98815-0173",
-"instagram": "iberebarbearia",
-"googleRating": 5.0,
-"googleReviews": 4
-},
-"15997478351": {
-"name": "Farias Hair Cabeleireiro Masculino",
+"15988338501": {
+"name": "Barbearia Cardoso",
 "city": "Sorocaba/SP",
-"neighborhood": "Vila Barcelona",
-"address": "Av. Paraguai, 1040 — Sorocaba/SP",
-"phone": "(15) 99747-8351",
-"instagram": "",
-"googleRating": 5.0,
+"neighborhood": "Wanel Ville",
+"address": "Av. Elias Maluf, 1526 — Sorocaba/SP",
+"phone": "(15) 98833-8501",
+"instagram": "@barbeariacardoso1526",
+"googleRating": 5,
 "googleReviews": 1
 },
 "12982689146": {
@@ -15205,8 +15205,8 @@
 "neighborhood": "Campo dos Alemães",
 "address": "R. Maria Tereza Cardoso Batista, 623 — São José dos Campos/SP",
 "phone": "(12) 98268-9146",
-"instagram": "_barberafa.macedo",
-"googleRating": 5.0,
+"instagram": "@_barberafa.macedo",
+"googleRating": 5,
 "googleReviews": 5
 },
 "12981067167": {
@@ -15219,24 +15219,24 @@
 "googleRating": 4.8,
 "googleReviews": 19
 },
-"15988338501": {
-"name": "Barbearia Cardoso",
-"city": "Sorocaba/SP",
-"neighborhood": "Wanel Ville",
-"address": "Av. Elias Maluf, 1526 — Sorocaba/SP",
-"phone": "(15) 98833-8501",
-"instagram": "barbeariacardoso1526",
-"googleRating": 5.0,
-"googleReviews": 1
+"12988150173": {
+"name": "Ibere Barbearia",
+"city": "São José dos Campos/SP",
+"neighborhood": "Zona Sul",
+"address": "Av. Nicanor Reis, 71 — São José dos Campos/SP",
+"phone": "(12) 98815-0173",
+"instagram": "@iberebarbearia",
+"googleRating": 5,
+"googleReviews": 4
 },
-"11975377582": {
-"name": "Barbearia Bentini",
-"city": "Jundiaí/SP",
-"neighborhood": "Vila Progresso",
-"address": "Av. Samuel Martins, 408, Jundiaí/SP",
-"phone": "(11) 97537-7582",
-"instagram": "barbearia_bentini",
-"googleRating": 5.0,
+"12988224104": {
+"name": "Moisés Retrô Barber Shop",
+"city": "São José dos Campos/SP",
+"neighborhood": "Vila Industrial",
+"address": "Av. Barbacena, 246 — São José dos Campos/SP",
+"phone": "(12) 98822-4104",
+"instagram": "",
+"googleRating": 5,
 "googleReviews": 101
 },
 "54984489892": {
@@ -15246,7 +15246,7 @@
 "address": "R. Beethoven, 2173 — Caxias do Sul/RS",
 "phone": "(54) 98448-9892",
 "instagram": "barbeariamasbah",
-"googleRating": 5.0,
+"googleRating": 5,
 "googleReviews": 3
 },
 "84986247804": {
@@ -15256,7 +15256,17 @@
 "address": "R. Expedicionário José Varela, 36 — Natal/RN",
 "phone": "(84) 98624-7804",
 "instagram": "macksducorte",
-"googleRating": 5.0,
+"googleRating": 5,
 "googleReviews": 2
+},
+"5564984174689": {
+"name": "Barbearia Tio Warley",
+"city": "Rio Verde/GO",
+"neighborhood": "Setor Central",
+"address": "R. Augusta Bastos, 683, Rio Verde, GO",
+"phone": "5564984174689",
+"instagram": "https://instagram.com/barbeariatiowarley",
+"googleRating": 5,
+"googleReviews": 3
 }
 }
