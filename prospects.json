@@ -16208,5 +16208,45 @@
 "instagram": "ms_barbearia17",
 "googleRating": null,
 "googleReviews": null
+},
+"22992389066": {
+"name": "Imperial Barbearia",
+"city": "Rio das Ostras/RJ",
+"neighborhood": "Jardim Miramar",
+"address": "Estrada Velha Rio Douro, 482",
+"phone": "(22) 99238-9066",
+"instagram": "D.LO.BARBEIRO",
+"googleRating": null,
+"googleReviews": null
+},
+"2227646306": {
+"name": "Barbearia do Beto",
+"city": "Rio das Ostras/RJ",
+"neighborhood": "Centro",
+"address": "R. Bangu, 1058",
+"phone": "(22) 2764-6306",
+"instagram": "",
+"googleRating": 4.97,
+"googleReviews": 60
+},
+"31971733948": {
+"name": "Barbearia Maladeza",
+"city": "Mariana/MG",
+"neighborhood": "Barro Preto",
+"address": "Travessa Eurico Benjamin Miranda, 1 - Barro Preto, Mariana - MG",
+"phone": "(31) 97173-3948",
+"instagram": "barbeariamaladeza",
+"googleRating": 4.8,
+"googleReviews": 18
+},
+"22997257762": {
+"name": "Barbearia do Jarbas",
+"city": "Rio das Ostras/RJ",
+"neighborhood": "Jardim Mariléia",
+"address": "R. Nova Iguaçu, 685",
+"phone": "(22) 99725-7762",
+"instagram": "barbeariadojarbas_",
+"googleRating": 5,
+"googleReviews": 50
 }
 }
